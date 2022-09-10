@@ -1,33 +1,37 @@
 import { Meteor } from 'meteor/meteor';
-import { RoomTempCollection } from '../imports/api/temps';
+import { RoomId, RoomTempCollection } from '../imports/db/temps';
 import Papa from 'papaparse';
 
-function insertRoomTemp(row) {
+function insertRoomTemp(data) {
   RoomTempCollection.insert({ 
-    room_id: Number(row[0]),
-    timestamp: new Date(row[1]),
-    temperature: Number(row[2])
+    room_id: Number(data.RoomId) as RoomId,
+    timestamp: new Date(data.timestamp),
+    temperature: Number(data.temperature)
   });
 }
 
 Meteor.startup(() => {
   // RoomTempCollection.remove({})
-  console.log(RoomTempCollection.find().count())
-  // If the Links collection is empty, add some data.
+  // If the Room Temp collection is empty, add some data.
   if (RoomTempCollection.find().count() === 0) {
-    const csv = Papa.parse(Assets.getText('room-temperatures.csv'), {
+    console.log("Collection is empty. Initializing data...")
+    Papa.parse(Assets.getText('room-temperatures.csv'), {
       delimiter: ",",
       newline: "",
       header: true,
       worker: true,
       step: function(row) {
-        insertRoomTemp(row);
-        console.log("Added row.");
+        insertRoomTemp(row.data);
+        // console.log(row.data.RoomId)
+        // console.log("Added row.");
       },
       complete: function() {
         console.log("Finished initializing data!");
       }
     }).data
   }
-  console.log(RoomTempCollection.find().count())
+  // Sanity check
+  const cursor = RoomTempCollection.find({});
+  console.log(cursor.count())
+  // console.log(cursor.fetch().slice(0, 5))
 });
