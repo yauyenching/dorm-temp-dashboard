@@ -1,31 +1,33 @@
 import { Meteor } from 'meteor/meteor';
-import { LinksCollection } from '../imports/api/links';
+import { RoomTempCollection } from '../imports/api/temps';
+import Papa from 'papaparse';
 
-function insertLink(title: string, url: string) {
-  LinksCollection.insert({ title, url, createdAt: new Date() });
+function insertRoomTemp(row) {
+  RoomTempCollection.insert({ 
+    room_id: Number(row[0]),
+    timestamp: new Date(row[1]),
+    temperature: Number(row[2])
+  });
 }
 
 Meteor.startup(() => {
+  // RoomTempCollection.remove({})
+  console.log(RoomTempCollection.find().count())
   // If the Links collection is empty, add some data.
-  if (LinksCollection.find().count() === 0) {
-    insertLink(
-      'Do the Tutorial',
-      'https://www.meteor.com/tutorials/react/creating-an-app'
-    );
-
-    insertLink(
-      'Follow the Guide',
-      'http://guide.meteor.com'
-    );
-
-    insertLink(
-      'Read the Docs',
-      'https://docs.meteor.com'
-    );
-
-    insertLink(
-      'Discussions',
-      'https://forums.meteor.com'
-    );
+  if (RoomTempCollection.find().count() === 0) {
+    const csv = Papa.parse(Assets.getText('room-temperatures.csv'), {
+      delimiter: ",",
+      newline: "",
+      header: true,
+      worker: true,
+      step: function(row) {
+        insertRoomTemp(row);
+        console.log("Added row.");
+      },
+      complete: function() {
+        console.log("Finished initializing data!");
+      }
+    }).data
   }
+  console.log(RoomTempCollection.find().count())
 });

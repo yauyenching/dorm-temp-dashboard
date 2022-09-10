@@ -1,9 +1,9 @@
 import React from 'react';
 import { useTracker } from 'meteor/react-meteor-data';
-import { LinksCollection, Link } from '../api/links';
+import { RoomTempCollection, RoomTemp } from '../api/temps';
 
 export const Info = () => {
-  const links = useTracker(() => {
+  /* const links = useTracker(() => {
     return LinksCollection.find().fetch();
   });
 
@@ -20,5 +20,5 @@ export const Info = () => {
       <h2>Learn Meteor!</h2>
       <ul>{links.map(makeLink)}</ul>
     </div>
-  );
+  ); */
 };
