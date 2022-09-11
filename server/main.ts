@@ -4,10 +4,17 @@ import Papa from 'papaparse';
 
 function insertRoomTemp(data) {
   RoomTempCollection.insert({ 
-    room_id: Number(data.RoomId) as RoomId,
+    roomId: Number(data.RoomId) as RoomId,
     timestamp: new Date(data.timestamp),
     temperature: Number(data.temperature)
   });
+}
+
+if(Meteor.isServer) {
+  console.log("Publishing RoomTempCollection...");
+  Meteor.publish('temps', function() {
+     return RoomTempCollection.find();
+  })
 }
 
 Meteor.startup(() => {
