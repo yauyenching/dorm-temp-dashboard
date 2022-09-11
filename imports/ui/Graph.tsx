@@ -38,27 +38,31 @@ export const Graph = () => {
   let data: any[] = [];
 
   const { isLoading, roomTemps } = useRoomTemps();
-  if (roomTemps !== null) {
-    let timeWindow: Date[] = roomTemps.map(roomTemp => roomTemp.timestamp)
-
+  if (!isLoading) {
+    
     function segregateTempData(roomTemps: RoomTemp[], property: keyof RoomTemp) {
       return roomTemps.reduce((acc, roomTemp) => {
-        const key = roomTemp[property];
+        const key = roomTemp.roomId;
+        // console.log(key);
+        // console.log(roomTemp[property]);
         acc[Number(key)] ??= [];
-        acc[Number(key)].push(roomTemp.temperature);
+        acc[Number(key)].push(roomTemp[property]);
         return acc;
       }, {});
     }
-
-    const roomTempData = segregateTempData(roomTemps, "roomId");
-    console.log(roomTempData);
+    
+    const roomTempData = segregateTempData(roomTemps, "temperature");
+    const timeWindow = segregateTempData(roomTemps, "timestamp")
+    // console.log(timeWindow['0']);
+    // console.log(roomTempData);
 
     for (const roomId in roomTempData) {
       data.push({
-        x: timeWindow,
+        x: timeWindow[roomId],
         y: roomTempData[roomId],
         type: 'scatter',
-        mode: 'lines'
+        mode: 'lines',
+        name: `Room ${roomId}`
       })
     }
   }
