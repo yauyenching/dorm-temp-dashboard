@@ -1,29 +1,10 @@
-import { Meteor } from 'meteor/meteor';
-import { useTracker } from 'meteor/react-meteor-data';
 import React from 'react';
 import Plot from 'react-plotly.js';
-import { RoomTemp, RoomTempCollection } from '../db/temps';
+import { RoomTemp } from '../db/temps';
 
-export const Graph = () => {
-  const startDateTime = new Date("2013-10-02T05:00:00");
-  const endDateTime = new Date("2013-10-03T05:00:00");
-
-  // referenced from https://anonyfox.com/spells/meteor-react-collection-hooks/
-  // https://blog.meteor.com/introducing-usetracker-react-hooks-for-meteor-cb00c16d6222
-  const useRoomTemps = () => useTracker(() => {
-    console.log("Fetching RoomTempCollection...");
-    const handler: Meteor.SubscriptionHandle = Meteor.subscribe('temps');
-    const roomTemps = RoomTempCollection.find({
-      timestamp: {
-        $gt: startDateTime,
-        $lt: endDateTime
-      }
-    }).fetch()
-    return {
-      roomTemps,
-      isLoading: !handler.ready()
-    }
-  }, [])
+export const Graph = ({ getRoomTemps }) => {
+  // const startDateTime = props.startDateTime;
+  // const endDateTime = props.endDateTime;
 
   // console.log(RoomTempCollection.find().count())
   // let query = RoomTempCollection.find({
@@ -37,9 +18,10 @@ export const Graph = () => {
 
   let data: any[] = [];
 
-  const { isLoading, roomTemps } = useRoomTemps();
+  const { isLoading, roomTemps } = getRoomTemps();
+  // console.log(isLoading);
   if (!isLoading) {
-    
+
     function segregateTempData(roomTemps: RoomTemp[], property: keyof RoomTemp) {
       return roomTemps.reduce((acc, roomTemp) => {
         const key = roomTemp.roomId;
@@ -50,7 +32,7 @@ export const Graph = () => {
         return acc;
       }, {});
     }
-    
+
     const roomTempData = segregateTempData(roomTemps, "temperature");
     const timeWindow = segregateTempData(roomTemps, "timestamp")
     // console.log(timeWindow['0']);
@@ -66,7 +48,18 @@ export const Graph = () => {
       })
     }
   }
+  // console.log(data)
   // let data = [r0, r1, r2, r3, r4, r5, r6];
+
+  const layout = {
+    width: 800,
+    height: 500,
+    title: 'A Fancy Plot',
+    yaxis: {
+      fixedrange: true
+    }
+    // responsive: true
+  }
 
   return (
     // <div>
@@ -75,7 +68,7 @@ export const Graph = () => {
     //   ) : (
     <Plot
       data={data}
-      layout={{ width: 800, height: 500, title: 'A Fancy Plot' }}
+      layout={layout}
     />
     //   )}
     // </div>
