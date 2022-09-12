@@ -19,8 +19,10 @@ export const App = () => {
         handleChangeStartDateTime={handleChangeStartDateTime}
         endDateTime={endDateTime}
         handleChangeEndDateTime={handleChangeEndDateTime}
-      />
+        />
       <Graph 
+        handleChangeStartDateTime={handleChangeStartDateTime}
+        handleChangeEndDateTime={handleChangeEndDateTime}
         getRoomTemps={getRoomTemps}
       />
     </div>

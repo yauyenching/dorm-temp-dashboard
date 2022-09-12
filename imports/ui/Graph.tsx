@@ -2,7 +2,7 @@ import React from 'react';
 import Plot from 'react-plotly.js';
 import { RoomTemp } from '../db/temps';
 
-export const Graph = ({ getRoomTemps }) => {
+export const Graph = ({ handleChangeStartDateTime, handleChangeEndDateTime, getRoomTemps }) => {
   // const startDateTime = props.startDateTime;
   // const endDateTime = props.endDateTime;
 
@@ -69,6 +69,16 @@ export const Graph = ({ getRoomTemps }) => {
     <Plot
       data={data}
       layout={layout}
+      onRelayout={(eventData) => {
+        handleChangeStartDateTime(eventData['xaxis.range[0]']);
+        handleChangeEndDateTime(eventData['xaxis.range[1]']);
+        // alert( 'ZOOM!' + '\n\n' +
+        //     'Event data:' + '\n' +
+        //      JSON.stringify(eventData) + '\n\n' +
+        //     //  + typeof(eventData['xaxis.range[0]'])
+        //     'x-axis start:' + (new Date(eventData['xaxis.range[0]'])) + '\n' +
+        //     'x-axis end:' + (new Date(eventData['xaxis.range[1]'])) );
+      }}
     />
     //   )}
     // </div>

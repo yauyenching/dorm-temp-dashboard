@@ -9,37 +9,46 @@ export const RoomTempModel = () => {
   const VALID_START_DATE = new Date("2013-10-02T05:00:00");
   const VALID_END_DATE = new Date("2013-12-03T15:30:00");
 
-  const [roomTemps, setRoomTemps] = useState([] as RoomTemp[]);
   const [startDateTime, setStartDateTime] =
     useState(new Date("2013-10-02T05:00:00"));
   const [endDateTime, setEndDateTime] =
-    useState(new Date("2013-10-03T00:00:00"));
+    useState(new Date("2013-10-02T20:00:00"));
   /* const [sampleSize, setSampleSize] =
     useState() */
 
-  const handleChangeStartDateTime = (inputStartDate: Dayjs | null): void => {
-    const startDateTime = inputStartDate?.toDate()
+  const handleChangeStartDateTime = (inputStartDate: Dayjs | string | null): void => {
+    let startDateTime: Date | null = null;
+    if (typeof(inputStartDate) === "string") {
+      startDateTime = new Date(inputStartDate)
+    } else if (inputStartDate !== null && inputStartDate !== undefined) {
+      startDateTime = inputStartDate.toDate()
+    }
     if (
-      startDateTime !== undefined &&
+      startDateTime !== null &&
       startDateTime.toString() !== 'Invalid Date' &&
       startDateTime >= VALID_START_DATE &&
       startDateTime <= VALID_END_DATE
     ) {
       setStartDateTime(startDateTime)
-      console.log(startDateTime)
+      // console.log(startDateTime)
     }
   }
 
-  const handleChangeEndDateTime = (inputEndDate: Dayjs | null): void => {
-    const endDateTime = inputEndDate?.toDate()
+  const handleChangeEndDateTime = (inputEndDate: Dayjs | string | null | undefined): void => {
+    let endDateTime: Date | null = null;
+    if (typeof(inputEndDate) === "string") {
+      endDateTime = new Date(inputEndDate)
+    } else if (inputEndDate !== null && inputEndDate !== undefined) {
+      endDateTime = inputEndDate.toDate()
+    }
     if (
-      endDateTime !== undefined &&
+      endDateTime !== null &&
       endDateTime.toString() !== 'Invalid Date' &&
       endDateTime <= VALID_END_DATE &&
       endDateTime > startDateTime
     ) {
       setEndDateTime(endDateTime)
-      console.log(endDateTime)
+      // console.log(endDateTime)
     }
   }
 
@@ -68,9 +77,9 @@ export const RoomTempModel = () => {
   //   }
   // })
 
-  return { 
-    startDateTime, handleChangeStartDateTime, 
-    endDateTime, handleChangeEndDateTime, 
+  return {
+    startDateTime, handleChangeStartDateTime,
+    endDateTime, handleChangeEndDateTime,
     getRoomTemps
   }
 

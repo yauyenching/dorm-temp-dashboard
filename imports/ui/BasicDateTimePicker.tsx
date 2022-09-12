@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { DateTimePicker, LocalizationProvider } from '@mui/x-date-pickers';
 import { TextField } from '@mui/material';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
@@ -9,6 +9,11 @@ export const BasicDateTimePicker = (
 ) => {
   const [startValue, setStartValue] = useState<Dayjs | null>(dayjs(startDateTime));
   const [endValue, setEndValue] = useState<Dayjs | null>(dayjs(endDateTime));
+
+  useEffect(() => {
+    setStartValue(startDateTime);
+    setEndValue(endDateTime)
+  }, [startDateTime, endDateTime])
 
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -24,6 +29,7 @@ export const BasicDateTimePicker = (
         renderInput={(params) => <TextField {...params} />}
         minDateTime={dayjs("2013-10-02T05:00:00")}
         maxDateTime={dayjs("2013-12-03T15:30:00")}
+        hideTabs={false}
       />
       <DateTimePicker
         label="End Date & Time"
@@ -36,6 +42,7 @@ export const BasicDateTimePicker = (
         renderInput={(params) => <TextField {...params} />}
         minDateTime={dayjs(startDateTime)}
         maxDateTime={dayjs("2013-12-03T15:30:00")}
+        hideTabs={false}
       />
     </LocalizationProvider>
   );
