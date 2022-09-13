@@ -1,6 +1,6 @@
 import React from 'react';
 import Plot from 'react-plotly.js';
-import { RoomTemp } from '../db/temps';
+import { RoomId, RoomIdTempData } from '../db/temps';
 
 export const Graph = ({ handleChangeStartDateTime, handleChangeEndDateTime, getRoomTemps }) => {
   // const startDateTime = props.startDateTime;
@@ -18,30 +18,27 @@ export const Graph = ({ handleChangeStartDateTime, handleChangeEndDateTime, getR
 
   let data: any[] = [];
 
+  // const roomTempData = segregateTempData(roomTemps, "temperature");
+  // const timeWindow = segregateTempData(roomTemps, "timestamp")
+  // console.log(timeWindow['0']);
+  // console.log(roomTempData);
+
   const { isLoading, roomTemps } = getRoomTemps();
-  // console.log(isLoading);
+
   if (!isLoading) {
+    for (const roomId in roomTemps) {
+      const roomData: RoomIdTempData[] = roomTemps[roomId];
+      const roomTimeWindow: Date[] = [];
+      const roomTempData: Number[] = [];
 
-    function segregateTempData(roomTemps: RoomTemp[], property: keyof RoomTemp) {
-      return roomTemps.reduce((acc, roomTemp) => {
-        const key = roomTemp.roomId;
-        // console.log(key);
-        // console.log(roomTemp[property]);
-        acc[Number(key)] ??= [];
-        acc[Number(key)].push(roomTemp[property]);
-        return acc;
-      }, {});
-    }
+      roomData.forEach(e => {
+        roomTimeWindow.push(e.x);
+        roomTempData.push(e.y);
+      })
 
-    const roomTempData = segregateTempData(roomTemps, "temperature");
-    const timeWindow = segregateTempData(roomTemps, "timestamp")
-    // console.log(timeWindow['0']);
-    // console.log(roomTempData);
-
-    for (const roomId in roomTempData) {
       data.push({
-        x: timeWindow[roomId],
-        y: roomTempData[roomId],
+        x: roomTimeWindow,
+        y: roomTempData,
         type: 'scatter',
         mode: 'lines',
         name: `Room ${roomId}`
