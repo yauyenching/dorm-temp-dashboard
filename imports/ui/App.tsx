@@ -10,7 +10,7 @@ export default function App() {
   const {
     startDateTime, handleChangeStartDateTime,
     endDateTime, handleChangeEndDateTime, 
-    sampleSize, setSampleSize,
+    sampleScale, setSampleScale,
     getRoomTemps
   } = RoomTempModel();
 
@@ -39,16 +39,16 @@ export default function App() {
         handleChangeStartDateTime={handleChangeStartDateTime}
         endDateTime={endDateTime}
         handleChangeEndDateTime={handleChangeEndDateTime}
-      />
+        />
       <SampleSlider
-        sampleSize={sampleSize}
-        setSampleSize={setSampleSize}
-        roomTemps={roomTemps}
-      />
+        sampleScale={sampleScale}
+        setSampleScale={setSampleScale}
+        />
       <Graph
         handleChangeStartDateTime={handleChangeStartDateTime}
         handleChangeEndDateTime={handleChangeEndDateTime}
         roomTemps={roomTemps}
+        sampleScale={sampleScale}
       />
     </div>
   );

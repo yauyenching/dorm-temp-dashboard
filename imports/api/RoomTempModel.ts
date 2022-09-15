@@ -3,7 +3,8 @@ import { Meteor } from 'meteor/meteor';
 import { useTracker } from 'meteor/react-meteor-data';
 import { RoomId, RoomIdTempData, RoomTemp, RoomTempCollection } from '../db/temps';
 import { Dayjs } from 'dayjs';
-
+import { downsample } from '../utils/sample';
+import { DataPoint } from 'downsample';
 
 export default function RoomTempModel() {
   const VALID_START_DATE = new Date("2013-10-02T05:00:00");
@@ -12,11 +13,13 @@ export default function RoomTempModel() {
   // const MIN_SAMPLE_SIZE = 0;
   // const MAX_SAMPLE_SIZE = 12;
 
+  type avgTempArr = [number, number, number, number, number, number];
+
   const [startDateTime, setStartDateTime] =
     useState(new Date("2013-10-02T05:00:00"));
   const [endDateTime, setEndDateTime] =
     useState(new Date("2013-10-02T20:00:00"));
-  const [sampleSize, setSampleSize] = useState(8);
+  const [sampleScale, setSampleScale] = useState(8);
 
   const handleChangeStartDateTime = (inputStartDate: Dayjs | string | null): void => {
     let startDateTime: Date | null = null;
@@ -92,7 +95,7 @@ export default function RoomTempModel() {
   return {
     startDateTime, handleChangeStartDateTime,
     endDateTime, handleChangeEndDateTime,
-    sampleSize, setSampleSize,
+    sampleScale, setSampleScale,
     getRoomTemps
   }
 }
