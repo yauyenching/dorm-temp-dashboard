@@ -2,7 +2,9 @@ import React from 'react';
 import Plot from 'react-plotly.js';
 import { RoomId, RoomIdTempData } from '../db/temps';
 
-export const Graph = ({ handleChangeStartDateTime, handleChangeEndDateTime, getRoomTemps }) => {
+export default function Graph(
+  { handleChangeStartDateTime, handleChangeEndDateTime, roomTemps }
+) {
   // const startDateTime = props.startDateTime;
   // const endDateTime = props.endDateTime;
 
@@ -23,27 +25,23 @@ export const Graph = ({ handleChangeStartDateTime, handleChangeEndDateTime, getR
   // console.log(timeWindow['0']);
   // console.log(roomTempData);
 
-  const { isLoading, roomTemps } = getRoomTemps();
+  for (const roomId in roomTemps) {
+    const roomData: RoomIdTempData[] = roomTemps[roomId];
+    const roomTimeWindow: Date[] = [];
+    const roomTempData: Number[] = [];
 
-  if (!isLoading) {
-    for (const roomId in roomTemps) {
-      const roomData: RoomIdTempData[] = roomTemps[roomId];
-      const roomTimeWindow: Date[] = [];
-      const roomTempData: Number[] = [];
+    roomData.forEach(e => {
+      roomTimeWindow.push(e.x);
+      roomTempData.push(e.y);
+    })
 
-      roomData.forEach(e => {
-        roomTimeWindow.push(e.x);
-        roomTempData.push(e.y);
-      })
-
-      data.push({
-        x: roomTimeWindow,
-        y: roomTempData,
-        type: 'scatter',
-        mode: 'lines',
-        name: `Room ${roomId}`
-      })
-    }
+    data.push({
+      x: roomTimeWindow,
+      y: roomTempData,
+      type: 'scatter',
+      mode: 'lines',
+      name: `Room ${roomId}`
+    })
   }
   // console.log(data)
   // let data = [r0, r1, r2, r3, r4, r5, r6];

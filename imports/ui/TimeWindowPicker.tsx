@@ -4,9 +4,9 @@ import { TextField } from '@mui/material';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import dayjs, { Dayjs } from 'dayjs';
 
-export const BasicDateTimePicker = (
+export default function TimeWindowPicker(
   { startDateTime, handleChangeStartDateTime, endDateTime, handleChangeEndDateTime }
-) => {
+) {
   const [startValue, setStartValue] = useState<Dayjs | null>(dayjs(startDateTime));
   const [endValue, setEndValue] = useState<Dayjs | null>(dayjs(endDateTime));
 

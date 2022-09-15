@@ -5,7 +5,7 @@ import { RoomId, RoomIdTempData, RoomTemp, RoomTempCollection } from '../db/temp
 import { Dayjs } from 'dayjs';
 
 
-export const RoomTempModel = () => {
+export default function RoomTempModel() {
   const VALID_START_DATE = new Date("2013-10-02T05:00:00");
   const VALID_END_DATE = new Date("2013-12-03T15:30:00");
 
@@ -80,9 +80,9 @@ export const RoomTempModel = () => {
         $lt: endDateTime
       }
     }).fetch()
-    const roomTemps = segregateTempData(roomTempsData)
+    const roomTempsSegregated = segregateTempData(roomTempsData)
     return {
-      roomTemps,
+      roomTempsSegregated,
       isLoading: !handler.ready()
     }
   }, [startDateTime, endDateTime])
@@ -92,7 +92,7 @@ export const RoomTempModel = () => {
   return {
     startDateTime, handleChangeStartDateTime,
     endDateTime, handleChangeEndDateTime,
+    sampleSize, setSampleSize,
     getRoomTemps
-
   }
 }

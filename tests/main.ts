@@ -2,10 +2,10 @@ import { Meteor } from 'meteor/meteor';
 import assert from 'assert';
 
 describe('dorm-temp-dashboard', function () {
-  // it('package.json has correct name', async function () {
-  //   const { name } = await import('../package.json');
-  //   assert.strictEqual(name, 'dorm-temp-dashboard');
-  // });
+  it('package.json has correct name', async function () {
+    const { name } = await import('../package.json');
+    assert.strictEqual(name, 'dorm-temp-dashboard');
+  });
 
   if (Meteor.isClient) {
     it('client is not server', function () {
