@@ -2,8 +2,7 @@ import React from 'react';
 import TimeSeries from './TimeSeries';
 import Hello from './Hello';
 import TimeWindowPicker from './TimeWindowPicker';
-import RoomTempModel from '../api/RoomTempModel';
-import { RoomId, RoomIdTempData } from '../db/temps';
+import { RoomTempModel, SegregatedRoomTemps } from '../api/RoomTempModel';
 import SampleSlider from './SampleSlider';
 import FloorPlan from './FloorPlan';
 
@@ -17,7 +16,7 @@ export default function App() {
   } = RoomTempModel();
 
   
-  let roomTemps: Record<RoomId, RoomIdTempData[]> = {
+  let roomTemps: SegregatedRoomTemps = {
     "0": [],
     "1": [],
     "2": [],
@@ -55,6 +54,8 @@ export default function App() {
       />
       <FloorPlan
         visibleRooms={visibleRooms}
+        handleToggleVisibleRooms={handleToggleVisibleRooms}
+        roomTemps={roomTemps}
       />
     </div>
   );

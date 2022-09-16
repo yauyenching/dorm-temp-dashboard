@@ -24,7 +24,7 @@ export default function TimeSeries(
       roomTimeWindow,
       roomTempData
     }
-  }, [sampleScale, roomTemps])
+  }, [sampleScale, roomTemps, visibleRooms])
 
   // console.log(roomTemps);
 
@@ -32,8 +32,6 @@ export default function TimeSeries(
     const roomData: RoomIdTempData[] = roomTemps[roomId];
 
     let { roomTimeWindow, roomTempData } = createGraphData(roomData);
-
-    // console.log(visibleRooms[roomId]);
 
     data.push({
       x: roomTimeWindow,
