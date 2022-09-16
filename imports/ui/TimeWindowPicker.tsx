@@ -25,7 +25,6 @@ export default function TimeWindowPicker(
           setStartValue(inputStartDate);
           handleChangeStartDateTime(inputStartDate);
         }}
-        // onAccept={(value) => console.log("test")}
         renderInput={(params) => <TextField {...params} />}
         minDateTime={dayjs("2013-10-02T05:00:00")}
         maxDateTime={dayjs("2013-12-03T15:30:00")}

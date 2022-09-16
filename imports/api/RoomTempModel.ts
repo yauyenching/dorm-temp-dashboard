@@ -1,12 +1,25 @@
-import React, { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { Meteor } from 'meteor/meteor';
 import { useTracker } from 'meteor/react-meteor-data';
 import { RoomId, RoomIdTempData, RoomTemp, RoomTempCollection } from '../db/temps';
 import { Dayjs } from 'dayjs';
-import { downsample } from '../utils/sample';
-import { DataPoint } from 'downsample';
 
 export default function RoomTempModel() {
+  const [startDateTime, setStartDateTime] =
+    useState(new Date("2013-10-02T05:00:00"));
+  const [endDateTime, setEndDateTime] =
+    useState(new Date("2013-10-03T05:00:00"));
+  const [sampleScale, setSampleScale] = useState(8);
+  const visibleRooms = {
+    "0": true,
+    "1": true,
+    "2": true,
+    "3": true,
+    "4": true,
+    "5": true,
+    "6": true
+  } as Record<RoomId, boolean>
+
   const VALID_START_DATE = new Date("2013-10-02T05:00:00");
   const VALID_END_DATE = new Date("2013-12-03T15:30:00");
 
@@ -15,60 +28,27 @@ export default function RoomTempModel() {
 
   type avgTempArr = [number, number, number, number, number, number];
 
-  const [startDateTime, setStartDateTime] =
-    useState(new Date("2013-10-02T05:00:00"));
-  const [endDateTime, setEndDateTime] =
-    useState(new Date("2013-10-02T20:00:00"));
-  const [sampleScale, setSampleScale] = useState(8);
-
-  const handleChangeStartDateTime = (inputStartDate: Dayjs | string | null): void => {
-    let startDateTime: Date | null = null;
-    if (typeof (inputStartDate) === "string") {
-      startDateTime = new Date(inputStartDate)
-    } else if (inputStartDate !== null && inputStartDate !== undefined) {
-      startDateTime = inputStartDate.toDate()
-    }
-    if (
-      startDateTime !== null &&
-      startDateTime.toString() !== 'Invalid Date' &&
-      startDateTime >= VALID_START_DATE &&
-      startDateTime <= VALID_END_DATE
-    ) {
-      setStartDateTime(startDateTime)
-      // console.log(startDateTime)
-    }
-  }
-
-  const handleChangeEndDateTime = (inputEndDate: Dayjs | string | null | undefined): void => {
-    let endDateTime: Date | null = null;
-    if (typeof (inputEndDate) === "string") {
-      endDateTime = new Date(inputEndDate)
-    } else if (inputEndDate !== null && inputEndDate !== undefined) {
-      endDateTime = inputEndDate.toDate()
-    }
-    if (
-      endDateTime !== null &&
-      endDateTime.toString() !== 'Invalid Date' &&
-      endDateTime <= VALID_END_DATE &&
-      endDateTime > startDateTime
-    ) {
-      setEndDateTime(endDateTime)
-      // console.log(endDateTime)
-    }
-  }
-
   function segregateTempData(roomTemps: RoomTemp[]): Record<RoomId, RoomIdTempData[]> {
     return roomTemps.reduce((acc, roomTemp) => {
       const key = roomTemp.roomId;
       // console.log(key);
       // console.log(roomTemp[property]);
-      acc[Number(key)] ??= [];
+      // acc[Number(key)] ??= [];
       acc[Number(key)].push({
         x: roomTemp.timestamp,
         y: roomTemp.temperature
       });
       return acc;
-    }, {} as Record<RoomId, RoomIdTempData[]>);
+    },
+      {
+        "0": [],
+        "1": [],
+        "2": [],
+        "3": [],
+        "4": [],
+        "5": [],
+        "6": []
+      });
   }
 
   // referenced from https://anonyfox.com/spells/meteor-react-collection-hooks/
@@ -90,12 +70,55 @@ export default function RoomTempModel() {
     }
   }, [startDateTime, endDateTime])
 
+  function handleChangeStartDateTime(input: Dayjs | string | null | undefined): void {
+    let inputStartDateTime: Date | null = null;
+    if (typeof (input) === "string") {
+      inputStartDateTime = new Date(input)
+    } else if (input !== null && input !== undefined) {
+      inputStartDateTime = input.toDate()
+    }
+    if (
+      inputStartDateTime !== null &&
+      inputStartDateTime.toString() !== 'Invalid Date' &&
+      inputStartDateTime >= VALID_START_DATE &&
+      inputStartDateTime <= VALID_END_DATE
+    ) {
+      setStartDateTime(inputStartDateTime)
+      // console.log(startDateTime)
+    }
+    // console.log(`startDateTime: ${startDateTime}`);
+  }
 
+  function handleChangeEndDateTime(input: Dayjs | string | null | undefined): void {
+    let inputEndStartTime: Date | null = null;
+    if (typeof input === "string") {
+      inputEndStartTime = new Date(input)
+    } else if (input !== null && input !== undefined) {
+      inputEndStartTime = input.toDate()
+    }
+    if (
+      inputEndStartTime !== null &&
+      inputEndStartTime.toString() !== 'Invalid Date' &&
+      inputEndStartTime <= VALID_END_DATE &&
+      inputEndStartTime >= startDateTime
+    ) {
+      setEndDateTime(inputEndStartTime)
+      // console.log(endDateTime)
+    }
+    // console.log(`endDateTime: ${endDateTime}`);
+  }
+
+  function handleToggleVisibleRooms(roomId: RoomId): void {
+    const key = String(roomId);
+    const oldState = visibleRooms[key]
+    visibleRooms[key] = !oldState
+  }
 
   return {
     startDateTime, handleChangeStartDateTime,
     endDateTime, handleChangeEndDateTime,
     sampleScale, setSampleScale,
+    visibleRooms, handleToggleVisibleRooms,
     getRoomTemps
   }
 }

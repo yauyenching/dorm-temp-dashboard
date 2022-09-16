@@ -8,7 +8,7 @@ function valuetext(value: number) {
 
 export default function SampleSlider({ sampleScale, setSampleScale }) {
   return (
-    <Box sx={{ width: 300 }}>
+    <Box>
       <Typography id="sample-slider" gutterBottom>
         Sample Size
       </Typography>

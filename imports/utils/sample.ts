@@ -9,7 +9,7 @@ export function downsample(
   roomTemps: RoomIdTempData[], sampleScale: number
 ): Indexable<DataPoint> {
   const sampleSize: number = calculateSampleSize(sampleScale);
-  console.log(sampleSize);
+  // console.log(sampleSize);
   const roomData: DataPoint[] = roomTemps as DataPoint[];
 
   return LTTB(roomData, sampleSize)

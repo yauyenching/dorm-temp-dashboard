@@ -1,16 +1,18 @@
 import React from 'react';
-import Graph from './Graph';
+import TimeSeries from './TimeSeries';
 import Hello from './Hello';
 import TimeWindowPicker from './TimeWindowPicker';
 import RoomTempModel from '../api/RoomTempModel';
 import { RoomId, RoomIdTempData } from '../db/temps';
 import SampleSlider from './SampleSlider';
+import FloorPlan from './FloorPlan';
 
 export default function App() {
   const {
     startDateTime, handleChangeStartDateTime,
     endDateTime, handleChangeEndDateTime, 
     sampleScale, setSampleScale,
+    visibleRooms, handleToggleVisibleRooms,
     getRoomTemps
   } = RoomTempModel();
 
@@ -44,11 +46,15 @@ export default function App() {
         sampleScale={sampleScale}
         setSampleScale={setSampleScale}
         />
-      <Graph
+      <TimeSeries
         handleChangeStartDateTime={handleChangeStartDateTime}
         handleChangeEndDateTime={handleChangeEndDateTime}
         roomTemps={roomTemps}
         sampleScale={sampleScale}
+        visibleRooms={visibleRooms}
+      />
+      <FloorPlan
+        visibleRooms={visibleRooms}
       />
     </div>
   );
