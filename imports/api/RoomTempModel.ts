@@ -3,7 +3,7 @@ import { Meteor } from 'meteor/meteor';
 import { useTracker } from 'meteor/react-meteor-data';
 import { RoomId, RoomIdTempData, RoomTemp, RoomTempCollection } from '../db/temps';
 import { Dayjs } from 'dayjs';
-import { startParams, changedParam } from '../utils/linkability';
+import { startParams, updatedParams } from '../utils/linkability';
 
 export type SegregatedRoomTemps = Record<RoomId, RoomIdTempData[]>;
 
@@ -20,8 +20,8 @@ export function RoomTempModel(
     useState<boolean[]>(
       loadParams.visible ?? [true, true, true, true, true, true, true]
     );
-  const [changedParam, setChangedParam] =
-    useState<changedParam>({} as changedParam);
+  const [changedParams, setChangedParams] =
+    useState<updatedParams>({} as updatedParams);
 
   const VALID_START_DATE = new Date("2013-10-02T05:00:00");
   const VALID_END_DATE = new Date("2013-12-03T15:30:00");
@@ -90,7 +90,9 @@ export function RoomTempModel(
       inputStartDateTime <= VALID_END_DATE
     ) {
       setStartDateTime(inputStartDateTime);
-      setChangedParam('start');
+      setChangedParams(params => ({...params, start: true}));
+      // signalChangedParam('start', changedParams, setChangedParams);
+      // sethangedParams('start');
       // console.log(startDateTime)
     }
     // console.log(`startDateTime: ${startDateTime}`);
@@ -111,23 +113,29 @@ export function RoomTempModel(
       inputEndStartTime >= startDateTime
     ) {
       setEndDateTime(inputEndStartTime);
-      setChangedParam('end');
+      setChangedParams(params => ({...params, end: true}));
+      // signalChangedParam('end', changedParams, setChangedParams);
+      // setchangedParams('end');
       // console.log(endDateTime)
     }
     // console.log(`endDateTime: ${endDateTime}`);
   }
-
+  
   function handleChangeSampleSize(sampleScale: number): void {
     setSampleScale(sampleScale);
-    setChangedParam('sample');
+    setChangedParams(params => ({...params, sample: true}));
+    // signalChangedParam('sample', changedParams, setChangedParams);
+    // setchangedParams('sample');
   }
-
+  
   function handleToggleVisibleRooms(roomId: RoomId): void {
     const newState = [...visibleRooms];
     const oldState = newState[roomId];
     newState[roomId] = !oldState;
     setVisibleRooms(newState);
-    setChangedParam('visible');
+    setChangedParams(params => ({...params, visible: true}));
+    // signalChangedParam('visible', changedParams, setChangedParams);
+    // setchangedParams('visible');
   }
 
   return {
@@ -135,7 +143,7 @@ export function RoomTempModel(
     endDateTime, handleChangeEndDateTime,
     sampleScale, handleChangeSampleSize,
     visibleRooms, handleToggleVisibleRooms,
-    changedParam, setChangedParam,
+    changedParams, setChangedParams,
     getRoomTemps,
   }
 }

@@ -7,7 +7,7 @@ export interface startParams {
   visible: boolean[]
 }
 
-export type changedParam = keyof startParams | null
+export type updatedParams = Record<keyof startParams, boolean>
 
 export function loadParamsOnStartup(urlParams: URLSearchParams): Partial<startParams> {
   const params = ['start', 'end', 'sample', 'visible'];
@@ -47,31 +47,32 @@ export function loadParamsOnStartup(urlParams: URLSearchParams): Partial<startPa
 export function setAppParams(
   linkabilityReference: Readonly<startParams>,
   newAppParams: URLSearchParams,
-  changedParam: changedParam,
-  setChangedParam: (changedParam: changedParam) => void
+  changedParams: updatedParams,
 ): void {
-  if (changedParam === null) {
-    return void 0;
+  // const key = changedParams;
+
+  for (const key in changedParams) {
+    const changed: boolean = changedParams[key];
+    const value: (Date | number | boolean[]) = linkabilityReference[key];
+    if (changed) {
+      switch (key) {
+        case 'start':
+        case 'end':
+          newAppParams.set(key, (value as Date).toISOString());
+          break;
+        case 'sample':
+          newAppParams.set(key, String(value));
+          break;
+        case 'visible':
+          const visibleStr: string =
+            (value as boolean[]).map(visibleRoomState =>
+              visibleRoomState ? '1' : '0').join('')
+          newAppParams.set(key, visibleStr);
+          break;
+      }
+      changedParams[key] = false;
+    }
   }
-
-  const key = changedParam;
-  const value = linkabilityReference[changedParam];
-
-  switch (key) {
-    case 'start':
-    case 'end':
-      newAppParams.set(key, (value as Date).toISOString());
-      break;
-    case 'sample':
-      newAppParams.set(key, String(value));
-      break;
-    case 'visible':
-      const visibleStr: string =
-        (value as boolean[]).map(visibleRoomState =>
-          visibleRoomState ? '1' : '0').join('')
-      newAppParams.set(key, visibleStr);
-      break;
-  }
-
-  setChangedParam(null);
+  // return changedParams;
+  // setChangedParams(updatedParams);
 }
