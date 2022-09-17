@@ -11,6 +11,7 @@
     "@types/meteor": "^2.7.1",
     "dayjs": "^1.11.5",
     "downsample": "^1.4.0",
+    "jsurl": "^0.1.5",
     "meteor-node-stubs": "^1.2.5",
     "papaparse": "^5.3.2",
     "plotly.js": "^2.14.0",
