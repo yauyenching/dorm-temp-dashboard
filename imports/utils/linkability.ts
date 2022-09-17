@@ -1,23 +1,24 @@
-import { useLocation, createSearchParams } from "react-router-dom";
+import { Location, createSearchParams, useSearchParams } from "react-router-dom";
 
-interface startParams {
+export interface startParams {
   start: Date,
   end: Date,
   sample: number,
   visible: boolean[]
 }
 
-function loadParamsOnStartup(): Partial<startParams> {
+export type changedParam = keyof startParams | null
+
+export function loadParamsOnStartup(urlParams: URLSearchParams): Partial<startParams> {
   const params = ['start', 'end', 'sample', 'visible'];
-  const location = useLocation();
-  const urlParams = createSearchParams(location.search);
 
   let loadParams: Partial<startParams> = {};
 
   params.forEach(param => {
     const queryResult = urlParams.get(param);
-    switch (param) {
+    switch (param as keyof startParams) {
       case 'start':
+        // console.log(new Date(queryResult ?? ''));
         queryResult !== null ? loadParams['start'] = new Date(queryResult) : void 0;
         break;
       case 'end':
@@ -41,4 +42,36 @@ function loadParamsOnStartup(): Partial<startParams> {
   })
 
   return loadParams;
+}
+
+export function setAppParams(
+  linkabilityReference: Readonly<startParams>,
+  newAppParams: URLSearchParams,
+  changedParam: changedParam,
+  setChangedParam: (changedParam: changedParam) => void
+): void {
+  if (changedParam === null) {
+    return void 0;
+  }
+
+  const key = changedParam;
+  const value = linkabilityReference[changedParam];
+
+  switch (key) {
+    case 'start':
+    case 'end':
+      newAppParams.set(key, (value as Date).toISOString());
+      break;
+    case 'sample':
+      newAppParams.set(key, String(value));
+      break;
+    case 'visible':
+      const visibleStr: string =
+        (value as boolean[]).map(visibleRoomState =>
+          visibleRoomState ? '1' : '0').join('')
+      newAppParams.set(key, visibleStr);
+      break;
+  }
+
+  setChangedParam(null);
 }

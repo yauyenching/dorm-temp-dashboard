@@ -6,35 +6,41 @@ import TimeWindowPicker from './TimeWindowPicker';
 import { RoomTempModel, SegregatedRoomTemps } from '../api/RoomTempModel';
 import SampleSlider from './SampleSlider';
 import FloorPlan from './FloorPlan';
+import { startParams, loadParamsOnStartup, setAppParams } from '../utils/linkability';
 
 function MainPage() {
   const location = useLocation();
   const urlParams = createSearchParams(location.search);
-  console.log(urlParams.get('start'))
+  const loadParams: Partial<startParams> = loadParamsOnStartup(urlParams);
 
-  const [searchParams, setSearchParams] = useSearchParams();
-  const newSearchParams = createSearchParams(searchParams);
-  
   const {
     startDateTime, handleChangeStartDateTime,
     endDateTime, handleChangeEndDateTime,
-    sampleScale, setSampleScale,
+    sampleScale, handleChangeSampleSize,
     visibleRooms, handleToggleVisibleRooms,
+    changedParam, setChangedParam,
     getRoomTemps
-  } = RoomTempModel();
-  // const params = new URLSearchParams("?mode=night&page=2");
-  // useEffect(() => setSearchParams("start"), []);
-  console.log(startDateTime.toJSON());
-  newSearchParams.set("start", startDateTime.toJSON());
-  useEffect(() => setSearchParams(newSearchParams), []);
-  // console.log(new Date(searchParams.get("start") ?? ""));
-  // newSearchParams.set("start", endDateTime.toISOString());
-  // const newSearchParams = createSearchParams(searchParams)
+  } = RoomTempModel(loadParams);
 
-  // const [startDateTimeParam, setStartDateTimeParam] = useQueryParam<Date>("start");
-  // useEffect(() => setStartDateTimeParam(startDateTime), []);
+  const linkabilityReference: Readonly<startParams> = {
+    start: startDateTime,
+    end: endDateTime,
+    sample: sampleScale,
+    visible: visibleRooms
+  }
 
-  // console.log(startDateTime.toISOString())
+  // console.log(startDateTime.toJSON());
+  const [dashboardParams, setDashboardParams] = useSearchParams(urlParams);
+  const newAppParams = createSearchParams(dashboardParams);
+
+  // newAppParams.set("start", '2013-10-01T21:00:00.000Z');
+  // newAppParams.set("end", '2013-11-03T21:00:00.000Z');
+  // newAppParams.set("sample", '8');
+  // // newAppParams.set("visible", '0110111');
+  useEffect(() => {
+    setAppParams(linkabilityReference, newAppParams, changedParam, setChangedParam);
+    setDashboardParams(newAppParams);
+  }, [changedParam, startDateTime, endDateTime, sampleScale, visibleRooms])
 
   let roomTemps: SegregatedRoomTemps = {
     "0": [],
@@ -63,7 +69,7 @@ function MainPage() {
       />
       <SampleSlider
         sampleScale={sampleScale}
-        setSampleScale={setSampleScale}
+        handleChangeSampleSize={handleChangeSampleSize}
       />
       <TimeSeries
         handleChangeStartDateTime={handleChangeStartDateTime}

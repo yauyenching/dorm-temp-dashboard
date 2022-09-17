@@ -6,7 +6,7 @@ function valuetext(value: number) {
   return `${value}°C`;
 }
 
-export default function SampleSlider({ sampleScale, setSampleScale }) {
+export default function SampleSlider({ sampleScale, handleChangeSampleSize }) {
   return (
     <Box>
       <Typography id="sample-slider" gutterBottom>
@@ -18,7 +18,7 @@ export default function SampleSlider({ sampleScale, setSampleScale }) {
             aria-label="Sample Size"
             aria-labelledby="sample-slider"
             value={sampleScale}
-            onChange={(_, value) => setSampleScale(value)}
+            onChange={(_, value) => handleChangeSampleSize(value)}
             getAriaValueText={valuetext}
             valueLabelDisplay="auto"
             valueLabelFormat={(value) =>`2^${value}`}

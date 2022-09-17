@@ -3,20 +3,25 @@ import { Meteor } from 'meteor/meteor';
 import { useTracker } from 'meteor/react-meteor-data';
 import { RoomId, RoomIdTempData, RoomTemp, RoomTempCollection } from '../db/temps';
 import { Dayjs } from 'dayjs';
+import { startParams, changedParam } from '../utils/linkability';
 
 export type SegregatedRoomTemps = Record<RoomId, RoomIdTempData[]>;
 
-export function RoomTempModel() {
+export function RoomTempModel(
+  loadParams: Partial<startParams>
+) {
   const [startDateTime, setStartDateTime] =
-    useState<Date>(new Date("2013-10-02T05:00:00"));
+    useState<Date>(loadParams.start ?? new Date("2013-10-02T05:00:00"));
   const [endDateTime, setEndDateTime] =
-    useState<Date>(new Date("2013-10-03T05:00:00"));
+    useState<Date>(loadParams.end ?? new Date("2013-10-03T05:00:00"));
   const [sampleScale, setSampleScale] =
-    useState<number>(8);
+    useState<number>(loadParams.sample ?? 8);
   const [visibleRooms, setVisibleRooms] =
-    useState<readonly boolean[]>(
-      [true, true, true, true, true, true, true]
-    )
+    useState<boolean[]>(
+      loadParams.visible ?? [true, true, true, true, true, true, true]
+    );
+  const [changedParam, setChangedParam] =
+    useState<changedParam>({} as changedParam);
 
   const VALID_START_DATE = new Date("2013-10-02T05:00:00");
   const VALID_END_DATE = new Date("2013-12-03T15:30:00");
@@ -55,12 +60,14 @@ export function RoomTempModel() {
     console.log("Fetching RoomTempCollection...");
     const handler: Meteor.SubscriptionHandle =
       Meteor.subscribe('temps', [startDateTime, endDateTime]);
-    const roomTempsData = RoomTempCollection.find({
+    let roomTempsData: RoomTemp[] = RoomTempCollection.find({
       timestamp: {
         $gt: startDateTime,
         $lt: endDateTime
       }
     }).fetch()
+    roomTempsData =
+      roomTempsData.sort((a, b) => b.timestamp.getTime() - a.timestamp.getTime())
     const roomTempsSegregated = segregateTempData(roomTempsData)
     return {
       roomTempsSegregated,
@@ -82,7 +89,8 @@ export function RoomTempModel() {
       inputStartDateTime >= VALID_START_DATE &&
       inputStartDateTime <= VALID_END_DATE
     ) {
-      setStartDateTime(inputStartDateTime)
+      setStartDateTime(inputStartDateTime);
+      setChangedParam('start');
       // console.log(startDateTime)
     }
     // console.log(`startDateTime: ${startDateTime}`);
@@ -102,10 +110,16 @@ export function RoomTempModel() {
       inputEndStartTime <= VALID_END_DATE &&
       inputEndStartTime >= startDateTime
     ) {
-      setEndDateTime(inputEndStartTime)
+      setEndDateTime(inputEndStartTime);
+      setChangedParam('end');
       // console.log(endDateTime)
     }
     // console.log(`endDateTime: ${endDateTime}`);
+  }
+
+  function handleChangeSampleSize(sampleScale: number): void {
+    setSampleScale(sampleScale);
+    setChangedParam('sample');
   }
 
   function handleToggleVisibleRooms(roomId: RoomId): void {
@@ -113,13 +127,15 @@ export function RoomTempModel() {
     const oldState = newState[roomId];
     newState[roomId] = !oldState;
     setVisibleRooms(newState);
+    setChangedParam('visible');
   }
 
   return {
     startDateTime, handleChangeStartDateTime,
     endDateTime, handleChangeEndDateTime,
-    sampleScale, setSampleScale,
+    sampleScale, handleChangeSampleSize,
     visibleRooms, handleToggleVisibleRooms,
+    changedParam, setChangedParam,
     getRoomTemps,
   }
 }

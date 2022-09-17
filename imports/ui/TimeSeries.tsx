@@ -12,7 +12,7 @@ export default function TimeSeries(
   let data: any[] = [];
 
   const createGraphData = (roomData: RoomIdTempData[]) => useTracker(() => {
-    const roomTempData: Number[] = [];
+    const roomTempData: number[] = [];
     const roomTimeWindow: Date[] = [];
     const downsampled = downsample(roomData, sampleScale)
     for (let i = 0; i < downsampled.length; i++) {
@@ -61,6 +61,7 @@ export default function TimeSeries(
       data={data}
       layout={layout}
       onRelayout={(eventData) => {
+        console.log('x start: ' + eventData['xaxis.range[0]'] + '\n' + 'x end: ' + eventData['xaxis.range[1]']);
         handleChangeStartDateTime(eventData['xaxis.range[0]']);
         handleChangeEndDateTime(eventData['xaxis.range[1]']);
       }}
