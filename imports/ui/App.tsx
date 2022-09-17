@@ -1,4 +1,5 @@
 import React from 'react';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
 import TimeSeries from './TimeSeries';
 import Hello from './Hello';
 import TimeWindowPicker from './TimeWindowPicker';
@@ -6,7 +7,7 @@ import { RoomTempModel, SegregatedRoomTemps } from '../api/RoomTempModel';
 import SampleSlider from './SampleSlider';
 import FloorPlan from './FloorPlan';
 
-export default function App() {
+function MainPage() {
   const {
     startDateTime, handleChangeStartDateTime,
     endDateTime, handleChangeEndDateTime, 
@@ -58,5 +59,14 @@ export default function App() {
         roomTemps={roomTemps}
       />
     </div>
+  );
+}
+
+export default function App() {
+  {/* <Router>
+      <Route path="/" element={<MainPage/>} />
+    </Router> */}
+  return (
+    <MainPage/>
   );
 }

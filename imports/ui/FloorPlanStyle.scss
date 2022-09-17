@@ -1,17 +1,21 @@
-$base-floor-color: #ebebeb;
-$floor-plan-border: #404040;
-$base-room-color: #d3d3d3;
-$inactive-room-color: #9d9fa2;
+$base-floor-color: #efefef;
+$floor-plan-border: #5f5f5f;
+$base-room-color: $base-floor-color;
+$decorative-room-color: #979797;
 $border-offset: -1.5px;
+
+// To use as reference in FloorPlan
+$inactive-background: hsla(0, 0%, 66%, 0.8);
+$inactive-text-color: #e1e1e1;
 
 .floor-plan {
   border: 2px solid $floor-plan-border;
-  margin-top: 100px;
+  margin-top: 20px;
   margin-left: 20px;
   margin-bottom: 20px;
   position: relative;
   box-sizing: border-box;
-  box-shadow: 0px 6px 30px rgba(0, 0, 0, 0.08);
+  box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.08);
 }
 
 .base {
@@ -37,14 +41,14 @@ $border-offset: -1.5px;
 .closet {
   width: 78.5px;
   height: 35px;
-  background-color: $inactive-room-color;
+  background-color: $decorative-room-color;
 }
 
 .decorative-room {
   width: 190px;
   height: calc(130px - 40px + 35px - 3px);
   position: absolute;
-  background-color: $inactive-room-color;
+  background-color: $decorative-room-color;
   border: inherit;
   right: -2px;
   top: $border-offset;
@@ -60,6 +64,10 @@ $border-offset: -1.5px;
   font-size: 36px;
   text-align: center;
   user-select: none;
+  transition: box-shadow 0.1s ease-in-out;
+  &:hover {
+    box-shadow: 0px 0px 30px -1px rgba(0,0,0,0.33);
+  }
 }
 
 .big {
@@ -67,14 +75,14 @@ $border-offset: -1.5px;
   height: 130px;
   top: -40px;
   left: $border-offset;
-  line-height: 130px;
+  padding: 30px 0px 0px;
 }
 
 .standard {
   width: 73px;
   height: 120px;
   bottom: $border-offset;
-  line-height: 120px;
+  padding: 25px 0px 0px;
 }
 
 @function getRoomPosition($roomId) {

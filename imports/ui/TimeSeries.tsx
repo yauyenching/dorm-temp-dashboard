@@ -44,7 +44,7 @@ export default function TimeSeries(
   }
 
   const layout = {
-    width: 800,
+    width: 850,
     height: 500,
     title: 'A Fancy Plot',
     colorway : ['#FE88B1', '#F89C74', '#F6CF71', '#87C55F', '#66C5CC', '#9EB9F3', '#DCB0F2'],
@@ -52,8 +52,8 @@ export default function TimeSeries(
     yaxis: {
       fixedrange: true,
       // bounds: [7.5, 28.5]
-    }
-    // responsive: true
+    },
+    responsive: true
   }
 
   return (
@@ -61,12 +61,12 @@ export default function TimeSeries(
       data={data}
       layout={layout}
       onRelayout={(eventData) => {
-        /* console.log(
-          'x-axis start:' + eventData['xaxis.range[0]'] + '\n' +
-          'x-axis end:' + eventData['xaxis.range[1]']
-        ) */
         handleChangeStartDateTime(eventData['xaxis.range[0]']);
         handleChangeEndDateTime(eventData['xaxis.range[1]']);
+      }}
+      config={{
+        scrollZoom: true,
+        // showLink: true
       }}
     />
   );

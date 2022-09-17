@@ -1,8 +1,7 @@
+import { withTheme } from '@emotion/react';
 import React from 'react';
-import { Button, Stack, Box } from "@mui/material";
 import { RoomId } from '../db/temps';
-import { calculateAverageTemps } from '../utils/avgTemp';
-// import './FloorPlanStyle.css';
+import { calculateAverageTemps, getRoomColor } from '../utils/avgTemp';
 
 export default function FloorPlan(
   { visibleRooms, handleToggleVisibleRooms, roomTemps }
@@ -15,41 +14,41 @@ export default function FloorPlan(
     roomIds.map(roomId => {
       const roomClass: string =
         roomId !== 0 ? `standard room R${roomId}` : 'big room';
+      const roomTemp: string =
+        (!isNaN(roomAvgTemps[roomId]) ? roomAvgTemps[roomId] : 0).toFixed(1)
+
+      const { opacity, valueR, valueB } = getRoomColor(roomAvgTemps[roomId])
+
+      const roomStyle =
+        visibleRooms[roomId] ? {
+          background: `rgba(${valueR}, 55, ${valueB}, ${opacity})`
+        } : {
+          background: 'hsla(0, 0%, 66%, 0.8)',
+          color: '#e1e1e1',
+        }
+
       return (
         <div
+          key={roomId}
           className={roomClass}
           onClick={() => { handleToggleVisibleRooms(roomId) }}
+          style={roomStyle}
         >
           R{roomId}
+          <div className='subtitle'>{roomTemp}</div>
         </div>
       );
     })
 
   return (
-    <>
-      <div>
-        <Stack spacing={2}>
-          <Stack direction="row" spacing={2}>
-            {roomIds.map(roomId =>
-              <Button
-                key={roomId}
-                variant="contained"
-                onClick={() => {
-                  handleToggleVisibleRooms(roomId);
-                }}
-              >
-                Room {roomId} ({(!isNaN(roomAvgTemps[roomId]) ? roomAvgTemps[roomId] : 0).toFixed(2)})
-              </Button>)}
-          </Stack>
-        </Stack>
-      </div>
-      <div className='base floor-plan'>
-        <div className='column decorative' />
-        <div className='closet decorative' style={{ "left": "18px" }} />
-        <div className='closet decorative' style={{ "left": "95px" }} />
-        <div className='decorative-room' />
-        {rooms}
-      </div>
-    </>
+    <div className='base floor-plan'>
+      <div className='big room'></div>
+      <div className='column decorative' />
+      <div className='closet decorative' style={{ left: "18px" }} />
+      <div className='closet decorative' style={{ left: "95px" }} />
+      <div className='decorative-room' />
+      {/* {roomIds.map(roomId => <div className={`standard room R${roomId}`} />)} */}
+      {rooms}
+    </div>
   );
 }
