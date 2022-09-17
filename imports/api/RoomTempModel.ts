@@ -75,6 +75,8 @@ export function RoomTempModel(
     }
   }, [startDateTime, endDateTime])
 
+  // Functional state updates referenced from 
+  // https://stackoverflow.com/questions/58193166/usestate-hook-setter-incorrectly-overwrites-state
   function handleChangeStartDateTime(input: Dayjs | string | number | null | undefined): void {
     // console.log(typeof input);
     let inputStartDateTime: Date | null = null;
@@ -91,11 +93,7 @@ export function RoomTempModel(
     ) {
       setStartDateTime(inputStartDateTime);
       setChangedParams(params => ({...params, start: true}));
-      // signalChangedParam('start', changedParams, setChangedParams);
-      // sethangedParams('start');
-      // console.log(startDateTime)
     }
-    // console.log(`startDateTime: ${startDateTime}`);
   }
 
   function handleChangeEndDateTime(input: Dayjs | string | number | null | undefined): void {
@@ -114,18 +112,12 @@ export function RoomTempModel(
     ) {
       setEndDateTime(inputEndStartTime);
       setChangedParams(params => ({...params, end: true}));
-      // signalChangedParam('end', changedParams, setChangedParams);
-      // setchangedParams('end');
-      // console.log(endDateTime)
     }
-    // console.log(`endDateTime: ${endDateTime}`);
   }
   
   function handleChangeSampleSize(sampleScale: number): void {
     setSampleScale(sampleScale);
     setChangedParams(params => ({...params, sample: true}));
-    // signalChangedParam('sample', changedParams, setChangedParams);
-    // setchangedParams('sample');
   }
   
   function handleToggleVisibleRooms(roomId: RoomId): void {
@@ -134,8 +126,6 @@ export function RoomTempModel(
     newState[roomId] = !oldState;
     setVisibleRooms(newState);
     setChangedParams(params => ({...params, visible: true}));
-    // signalChangedParam('visible', changedParams, setChangedParams);
-    // setchangedParams('visible');
   }
 
   return {
@@ -143,7 +133,6 @@ export function RoomTempModel(
     endDateTime, handleChangeEndDateTime,
     sampleScale, handleChangeSampleSize,
     visibleRooms, handleToggleVisibleRooms,
-    changedParams, setChangedParams,
-    getRoomTemps,
+    changedParams, getRoomTemps,
   }
 }

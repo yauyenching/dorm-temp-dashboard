@@ -1,5 +1,3 @@
-import { Location, createSearchParams, useSearchParams } from "react-router-dom";
-
 export interface startParams {
   start: Date,
   end: Date,
@@ -18,7 +16,6 @@ export function loadParamsOnStartup(urlParams: URLSearchParams): Partial<startPa
     const queryResult = urlParams.get(param);
     switch (param as keyof startParams) {
       case 'start':
-        // console.log(new Date(queryResult ?? ''));
         queryResult !== null ? loadParams['start'] = new Date(queryResult) : void 0;
         break;
       case 'end':
@@ -49,8 +46,6 @@ export function setAppParams(
   newAppParams: URLSearchParams,
   changedParams: updatedParams,
 ): void {
-  // const key = changedParams;
-
   for (const key in changedParams) {
     const changed: boolean = changedParams[key];
     const value: (Date | number | boolean[]) = linkabilityReference[key];
@@ -73,6 +68,4 @@ export function setAppParams(
       changedParams[key] = false;
     }
   }
-  // return changedParams;
-  // setChangedParams(updatedParams);
 }
