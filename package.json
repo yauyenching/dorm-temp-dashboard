@@ -41,5 +41,6 @@
     "url": "https://github.com/yauyenching/dorm-temp-dashboard/issues"
   },
   "homepage": "https://github.com/yauyenching/dorm-temp-dashboard#readme",
-  "description": "Dormitory Smart Temperature Monitoring Dashboard"
+  "description": "Dormitory Smart Temperature Monitoring Dashboard",
+  "devDependencies": {}
 }
