@@ -2,7 +2,9 @@ $base-floor-color: #efefef;
 $floor-plan-border: #5f5f5f;
 $base-room-color: $base-floor-color;
 $decorative-room-color: #979797;
-$border-offset: -1.5px;
+$scale: 0.8;
+$border-offset: -1.5px * $scale;
+$standard-room-width: 73px * $scale;
 
 // To use as reference in FloorPlan
 $inactive-background: hsla(0, 0%, 66%, 0.8);
@@ -10,43 +12,55 @@ $inactive-text-color: #e1e1e1;
 
 .floor-plan {
   border: 2px solid $floor-plan-border;
-  margin-top: 20px;
-  margin-left: 20px;
-  margin-bottom: 20px;
+  margin-top: 25px;
+  // margin-left: -60px;
+  // margin-bottom: 20px;
   position: relative;
   box-sizing: border-box;
   box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.08);
+  margin: auto;
+  // display: flex;
+  // justify-content: center;
+  // align-items: center;
 }
 
 .base {
   background-color: $base-floor-color;
-  width: 430px;
-  height: 275px;
+  width: 430px * $scale;
+  height: 275px * $scale;
 }
 
 .decorative {
   position: absolute;
   border: inherit;
   left: $border-offset;
-  top: calc(130px - 40px - 1.5px);
+  top: (130px * $scale) - 40px + $border-offset;
   box-sizing: border-box;
 }
 
 .column {
-  width: 21px;
-  height: 35px;
+  width: 21px * $scale;
+  height: 35px * $scale;
   background-color: #6d6d6d;
 }
 
 .closet {
-  width: 78.5px;
-  height: 35px;
+  width: 78.5px * $scale;
+  height: 35px * $scale;
   background-color: $decorative-room-color;
 }
 
+.c1 {
+  left: 18px * $scale;
+}
+
+.c2 {
+  left: 95px * $scale;
+}
+
 .decorative-room {
-  width: 190px;
-  height: calc(130px - 40px + 35px - 3px);
+  width: 190px * $scale;
+  height: (130px * $scale) - 40px + (35px * $scale) + ($border-offset * 2);
   position: absolute;
   background-color: $decorative-room-color;
   border: inherit;
@@ -61,7 +75,7 @@ $inactive-text-color: #e1e1e1;
   position: absolute;
   box-shadow: inherit;
   cursor: pointer;
-  font-size: 36px;
+  font-size: 32px;
   text-align: center;
   user-select: none;
   transition: box-shadow 0.1s ease-in-out;
@@ -71,22 +85,22 @@ $inactive-text-color: #e1e1e1;
 }
 
 .big {
-  width: 175px;
-  height: 130px;
+  width: 175px * $scale;
+  height: 130px * $scale;
   top: -40px;
   left: $border-offset;
-  padding: 30px 0px 0px;
+  padding: (30px * $scale) 0px 0px;
 }
 
 .standard {
-  width: 73px;
-  height: 120px;
+  width: $standard-room-width;
+  height: 120px * $scale;
   bottom: $border-offset;
-  padding: 25px 0px 0px;
+  padding: (25px * $scale) 0px 0px;
 }
 
 @function getRoomPosition($roomId) {
-  @return (-1.5px * $roomId) + (73px * ($roomId - 1));
+  @return ($border-offset * $roomId) + ($standard-room-width * ($roomId - 1));
 }
 
 .R1 {
@@ -114,5 +128,5 @@ $inactive-text-color: #e1e1e1;
 }
 
 .subtitle {
-  font-size: 20px;
+  font-size: 18px;
 }

@@ -1,4 +1,3 @@
-import { withTheme } from '@emotion/react';
 import React from 'react';
 import { RoomId } from '../db/temps';
 import { calculateAverageTemps, getRoomColor } from '../utils/avgTemp';
@@ -44,8 +43,8 @@ export default function FloorPlan(
     <div className='base floor-plan'>
       <div className='big room'></div>
       <div className='column decorative' />
-      <div className='closet decorative' style={{ left: "18px" }} />
-      <div className='closet decorative' style={{ left: "95px" }} />
+      <div className='closet decorative c1' />
+      <div className='closet decorative c2' />
       <div className='decorative-room' />
       {/* {roomIds.map(roomId => <div className={`standard room R${roomId}`} />)} */}
       {rooms}

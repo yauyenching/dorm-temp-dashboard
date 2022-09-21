@@ -1,5 +1,5 @@
 import React from 'react';
-import { Grid, Typography, Input, Box, Slider } from '@mui/material';
+import { Grid, Typography, Input, Box, Slider, Stack } from '@mui/material';
 import { calculateSampleSize } from '../utils/sample'
 
 function valuetext(value: number) {
@@ -9,31 +9,27 @@ function valuetext(value: number) {
 export default function SampleSlider({ sampleScale, handleChangeSampleSize }) {
   return (
     <Box>
-      <Typography id="sample-slider" gutterBottom>
-        Sample Size
-      </Typography>
-      <Grid container spacing={2}>
-        <Grid item xs={10}>
-          <Slider
-            aria-label="Sample Size"
-            aria-labelledby="sample-slider"
-            value={sampleScale}
-            onChange={(_, value) => handleChangeSampleSize(value)}
-            getAriaValueText={valuetext}
-            valueLabelDisplay="auto"
-            valueLabelFormat={(value) =>`2^${value}`}
-            step={1}
-            marks
-            min={2}
-            max={12}
-          />
-        </Grid>
-        <Grid item xs={2}>
-          <Typography>
-            {calculateSampleSize(sampleScale)}
-          </Typography>
-        </Grid>
-      </Grid>
+      <Stack direction="row" spacing={1}>
+        <Typography id="sample-slider" gutterBottom>
+          Sample Size
+        </Typography>
+        <Typography sx={{ border: 1, px: 1, width: 40, borderColor: '#4C60A9' }}>
+          {calculateSampleSize(sampleScale)}
+        </Typography>
+      </Stack>
+      <Slider
+        aria-label="Sample Size"
+        aria-labelledby="sample-slider"
+        value={sampleScale}
+        onChange={(_, value) => handleChangeSampleSize(value)}
+        getAriaValueText={valuetext}
+        valueLabelDisplay="auto"
+        valueLabelFormat={(value) =>`2^${value}`}
+        step={1}
+        marks
+        min={2}
+        max={12}
+      />
     </Box>
   );
 }
