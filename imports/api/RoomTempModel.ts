@@ -11,9 +11,9 @@ export function RoomTempModel(
   loadParams: Partial<startParams>
 ) {
   const [startDateTime, setStartDateTime] =
-    useState<Date>(loadParams.start ?? new Date("2013-10-02T05:00:00"));
+    useState<Date>(loadParams.start ?? new Date("2013-11-01T05:00:00"));
   const [endDateTime, setEndDateTime] =
-    useState<Date>(loadParams.end ?? new Date("2013-10-03T05:00:00"));
+    useState<Date>(loadParams.end ?? new Date("2013-11-04T05:00:00"));
   const [sampleScale, setSampleScale] =
     useState<number>(loadParams.sample ?? 8);
   const [visibleRooms, setVisibleRooms] =

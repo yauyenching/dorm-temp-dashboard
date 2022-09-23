@@ -1,12 +1,16 @@
 import React, { useEffect } from 'react';
-import { BrowserRouter, Routes, Route, useSearchParams, createSearchParams, useLocation } from 'react-router-dom';
-import TimeSeries from './TimeSeries';
+import { BrowserRouter, Routes, Route, useSearchParams, createSearchParams, useLocation, Link } from 'react-router-dom';
 import TimeWindowPicker from './TimeWindowPicker';
 import { RoomTempModel, SegregatedRoomTemps } from '../api/RoomTempModel';
 import SampleSlider from './SampleSlider';
-import FloorPlan from './FloorPlan';
 import { startParams, loadParamsOnStartup, setAppParams } from '../utils/linkability';
-import { Grid, createTheme, ThemeProvider, CssBaseline } from '@mui/material';
+import { Grid, createTheme, ThemeProvider, CssBaseline, Typography } from '@mui/material';
+import { GitHub, LinkedIn } from '@mui/icons-material';
+
+// import TimeSeries from './TimeSeries';
+// import FloorPlan from './FloorPlan';
+const TimeSeries = React.lazy(() => import('./TimeSeries'));
+const FloorPlan = React.lazy(() => import('./FloorPlan'));
 
 function MainPage() {
   const location = useLocation();
@@ -31,7 +35,7 @@ function MainPage() {
   const [dashboardParams, setDashboardParams] = useSearchParams(urlParams);
   const newAppParams = createSearchParams(dashboardParams);
 
-  console.log(changedParams);
+  // console.log(changedParams);
 
   useEffect(() => {
     setAppParams(linkabilityReference, newAppParams, changedParams);
@@ -68,13 +72,11 @@ function MainPage() {
 
   return (
     <ThemeProvider theme={theme}>
+      <div id="header">
+        <h1>Dorm Temperature Monitoring Dashboard</h1>
+      </div>
       <div className='container'>
         <Grid container spacing={2} justifyContent="center" alignItems="center">
-          <Grid item md={12} xs={12}>
-            <div id="header">
-              <h1>Dorm Temperature Monitoring Dashboard</h1>
-            </div>
-          </Grid>
           <Grid item md={7} xs={12}>
             <TimeWindowPicker
               startDateTime={startDateTime}
@@ -89,7 +91,7 @@ function MainPage() {
               handleChangeSampleSize={handleChangeSampleSize}
             />
           </Grid>
-          <Grid item md={8} xs={12}>
+          <Grid item lg={8} md={7} xs={12}>
             <TimeSeries
               handleChangeStartDateTime={handleChangeStartDateTime}
               handleChangeEndDateTime={handleChangeEndDateTime}
@@ -98,12 +100,21 @@ function MainPage() {
               visibleRooms={visibleRooms}
             />
           </Grid>
-          <Grid item md={4} xs={12}>
+          <Grid item lg={4} md={5} xs={12}>
             <FloorPlan
               visibleRooms={visibleRooms}
               handleToggleVisibleRooms={handleToggleVisibleRooms}
               roomTemps={roomTemps}
             />
+          </Grid>
+          <Grid item mt={4}>
+            Made with 🧡 by Yau Yen Ching 
+            <a target="_blank" href="https://github.com/yauyenching">
+              <GitHub fontSize='small' sx={{color:'#3D405B'}}/>
+            </a> 
+            <a target="_blank" href="https://www.linkedin.com/in/yau-yen-ching">
+              <LinkedIn fontSize='small' sx={{color:'#3D405B'}}/>
+            </a>
           </Grid>
         </Grid>
       </div>

@@ -64,7 +64,7 @@ export default function TimeSeries(
     margin: {
       l: 25,
       r: 25,
-      b: 50,
+      b: 25,
       t: 50,
       pad: 2
     }
@@ -76,7 +76,7 @@ export default function TimeSeries(
         data={data}
         layout={layout}
         onRelayout={(eventData) => {
-          // console.log('x start: ' + eventData['xaxis.range[0]'] + '\n' + 'x end: ' + eventData['xaxis.range[1]']);
+          console.log('x start: ' + eventData['xaxis.range[0]'] + '\n' + 'x end: ' + eventData['xaxis.range[1]']);
           handleChangeStartDateTime(eventData['xaxis.range[0]']);
           handleChangeEndDateTime(eventData['xaxis.range[1]']);
         }}
