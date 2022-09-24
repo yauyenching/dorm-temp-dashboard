@@ -10,8 +10,10 @@ A full-stack web application with elements of Progressive Web Apps for a mock bu
 
 ## ✨ Preview ##
 <div align="center">
-  <img src="preview/responsive-desktop.png" width="600">
-  <span><b>Explore and interact with time series data in a visually appealing format!</b></span>
+  <figure>
+    <img src="preview/responsive-desktop.png" width="600">
+    <figcaption><b>Explore and interact with time series data in a visually appealing format!</b></figcaption>
+  </figure>
 
   <h3>🔗 Check out the live bot on telegram (<a href="https://t.me/WordleScoreboardBot">@WordleScoreboardBot</a>)!</h3>
 </div>
@@ -20,7 +22,7 @@ A full-stack web application with elements of Progressive Web Apps for a mock bu
 ### Responsive website design
 <div align="center">
   <figure>
-    <img src="preview/responsive.png" width="800">
+    <img src="preview/responsive.png" width="500">
     <figcaption>The UI dynamically adjusts to fit different form factors</figcaption>
   </figure>
 </div>
