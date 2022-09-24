@@ -21,7 +21,7 @@ A full-stack web application with elements of Progressive Web Apps for a mock bu
 ## ⭐ Features (with images) ##
 ### Responsive website design
 <div align="center">
-    <img src="preview/responsive.png" width="600">
+    <img src="preview/responsive.png" width="800">
     <div>The UI dynamically adjusts to fit different form factors</div>
   </figure>
 </div>
