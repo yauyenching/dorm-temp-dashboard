@@ -12,7 +12,7 @@ A full-stack web application with elements of Progressive Web Apps for a mock bu
 <div align="center" style="display:block;">
   <figure>
     <img src="preview/responsive-desktop.png" width="600">
-    <figcaption><b>Explore and interact with time series data in a visually appealing format!</b></figcaption>
+    <div><b>Explore and interact with time series data in a visually appealing format!</b></div>
   </figure>
 
   <h3>🔗 Check out the live bot on telegram (<a href="https://t.me/WordleScoreboardBot">@WordleScoreboardBot</a>)!</h3>
@@ -20,63 +20,50 @@ A full-stack web application with elements of Progressive Web Apps for a mock bu
 
 ## ⭐ Features (with images) ##
 ### Responsive website design
-<div align="center" style="display:block;">
-  <figure>
-    <img src="preview/responsive.png" width="500">
-    <figcaption>The UI dynamically adjusts to fit different form factors</figcaption>
+<div align="center">
+    <img src="preview/responsive.png" width="600">
+    <div>The UI dynamically adjusts to fit different form factors</div>
   </figure>
 </div>
 
 ### Linkable
 <div align="center" style="display:block;">
-  <figure>
-    <img src="preview/linkable.gif" width="800">
-    <figcaption>App's settings are stored in the URL for easy shareability</figcaption>
-  </figure>
+  <img src="preview/linkable.gif" width="500">
+  <div>App's settings are stored in the URL for easy shareability</div>
 </div>
 
 ### Adjust the time window
 <div align="center" style="display:block;">
-  <figure>
-    <img src="preview/time-window-menu.gif" width="500">
-    <figcaption>Adjust date time range using material-ui pickers</figcaption>
-  </figure>
+  <img src="preview/time-window-menu.gif" width="500">
+  <div>Adjust date time range using material-ui pickers</div>
+  <br>
 
-  <figure>
-    <img src="preview/time-window-zoom.gif" width="500">
-    <figcaption>Zoom in/out of the plot using the mousewheel</figcaption>
-  </figure>
+  <img src="preview/time-window-zoom.gif" width="500">
+  <div>Zoom in/out of the plot using the mousewheel</div>
+  <br>
 
-  <figure>
-    <img src="preview/time-window-plot-zoom.gif" width="500">
-    <figcaption>Zoom into the plot using click + drag</figcaption>
-  </figure>
+  <img src="preview/time-window-plot-zoom.gif" width="500">
+  <div>Zoom into the plot using click + drag</div>
+  <br>
 
-  <figure>
-    <img src="preview/time-window-pan.gif" width="500">
-    <figcaption>Pan the plot using shift + click + drag</figcaption>
-  </figure>
+  <img src="preview/time-window-pan.gif" width="500">
+  <div>Pan the plot using shift + click + drag</div>
 </div>
   
 ### Adjust sample granularity
 <div align="center" style="display:block;">
-  <figure>
-    <img src="preview/sample-slider.gif" width="500">
-    <figcaption>Adjust number of data points shown on the plot using a slider</figcaption>
-  </figure>
+  <img src="preview/sample-slider.gif" width="500">
+  <div>Adjust number of data points shown on the plot using a slider</div>
 </div>
 
 ### Floor plan
 <div align="center" style="display:block;">
-  <figure>
-    <img src="preview/floorplan-toggle.gif" width="500">
-    <figcaption>Filter what data is shown on the plot using the floor plan</figcaption>
-  </figure>
+  <img src="preview/floorplan-toggle.gif" width="500">
+  <div>Filter what data is shown on the plot using the floor plan</div>
+  <br>
 
-  <figure>
-    <img src="preview/floorplan-color.gif" width="500">
-    <figcaption>The floor plan changes color depending on the average temperature of the data in the date time range</figcaption>
-  </figure>
+  <img src="preview/floorplan-color.gif" width="500">
+  <div>The floor plan changes color depending on the average temperature of the data in the date time range</div>
 </div>
 
 
