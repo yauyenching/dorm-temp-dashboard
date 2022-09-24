@@ -9,7 +9,7 @@
 A full-stack web application with elements of Progressive Web Apps for a mock building smart temperature management system for a dormitory using TypeScript, React, Sass, and Meteor. This project as part of a final assignment for a UI development course.
 
 ## ✨ Preview ##
-<div align="center">
+<div align="center" style="display:block;">
   <figure>
     <img src="preview/responsive-desktop.png" width="600">
     <figcaption><b>Explore and interact with time series data in a visually appealing format!</b></figcaption>
@@ -20,7 +20,7 @@ A full-stack web application with elements of Progressive Web Apps for a mock bu
 
 ## ⭐ Features (with images) ##
 ### Responsive website design
-<div align="center">
+<div align="center" style="display:block;">
   <figure>
     <img src="preview/responsive.png" width="500">
     <figcaption>The UI dynamically adjusts to fit different form factors</figcaption>
@@ -28,7 +28,7 @@ A full-stack web application with elements of Progressive Web Apps for a mock bu
 </div>
 
 ### Linkable
-<div align="center">
+<div align="center" style="display:block;">
   <figure>
     <img src="preview/linkable.gif" width="800">
     <figcaption>App's settings are stored in the URL for easy shareability</figcaption>
@@ -36,7 +36,7 @@ A full-stack web application with elements of Progressive Web Apps for a mock bu
 </div>
 
 ### Adjust the time window
-<div align="center">
+<div align="center" style="display:block;">
   <figure>
     <img src="preview/time-window-menu.gif" width="500">
     <figcaption>Adjust date time range using material-ui pickers</figcaption>
@@ -59,7 +59,7 @@ A full-stack web application with elements of Progressive Web Apps for a mock bu
 </div>
   
 ### Adjust sample granularity
-<div align="center">
+<div align="center" style="display:block;">
   <figure>
     <img src="preview/sample-slider.gif" width="500">
     <figcaption>Adjust number of data points shown on the plot using a slider</figcaption>
@@ -67,7 +67,7 @@ A full-stack web application with elements of Progressive Web Apps for a mock bu
 </div>
 
 ### Floor plan
-<div align="center">
+<div align="center" style="display:block;">
   <figure>
     <img src="preview/floorplan-toggle.gif" width="500">
     <figcaption>Filter what data is shown on the plot using the floor plan</figcaption>
