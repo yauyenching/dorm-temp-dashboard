@@ -2,78 +2,125 @@
 <p align="center">
   <img src="https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white">
   <img src="https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB">
+  <img src="https://img.shields.io/badge/Sass-CC6699?style=for-the-badge&logo=sass&logoColor=white">
   <img src="https://img.shields.io/badge/Meteor-DE4D4D?style=for-the-badge&logo=Meteor&logoColor=white">
   <img src="https://img.shields.io/badge/License-MIT-informational?style=for-the-badge">
 </p>
-A full-stack web application for a mock building smart temperature management system for a dormitory using TypeScript, React, and Meteor.
+A full-stack web application with elements of Progressive Web Apps for a mock building smart temperature management system for a dormitory using TypeScript, React, Sass, and Meteor. This project as part of a final assignment for a UI development course.
 
 ## ✨ Preview ##
 <div align="center">
-  <figure>
-    <div align="center" style="display:block;">
-      <img src="preview/auto_add_and_leaderboard.png" height="600">
-      <img src="preview/auto_update.png" height="600">
-    </div>
-    <figcaption>Examples of printing leaderboard (left) and auto-updating stats (right) capabilities</figcaption>
-  </figure>
+  <img src="preview/responsive-desktop.png" width="600">
+  <span><b>Explore and interact with time series data in a visually appealing format!</b></span>
+
   <h3>🔗 Check out the live bot on telegram (<a href="https://t.me/WordleScoreboardBot">@WordleScoreboardBot</a>)!</h3>
+</div>
+
+## ⭐ Features (with images) ##
+### Responsive website design
+<div align="center">
+  <figure>
+    <img src="preview/responsive.png" width="800">
+    <figcaption>The UI dynamically adjusts to fit different form factors</figcaption>
+  </figure>
+</div>
+
+### Linkable
+<div align="center">
+  <figure>
+    <img src="preview/linkable.gif" width="800">
+    <figcaption>App's settings are stored in the URL for easy shareability</figcaption>
+  </figure>
+</div>
+
+### Adjust the time window
+<div align="center">
+  <figure>
+    <img src="preview/time-window-menu.gif" width="500">
+    <figcaption>Adjust date time range using material-ui pickers</figcaption>
+  </figure>
+
+  <figure>
+    <img src="preview/time-window-zoom.gif" width="500">
+    <figcaption>Zoom in/out of the plot using the mousewheel</figcaption>
+  </figure>
+
+  <figure>
+    <img src="preview/time-window-plot-zoom.gif" width="500">
+    <figcaption>Zoom into the plot using click + drag</figcaption>
+  </figure>
+
+  <figure>
+    <img src="preview/time-window-pan.gif" width="500">
+    <figcaption>Pan the plot using shift + click + drag</figcaption>
+  </figure>
+</div>
+  
+### Adjust sample granularity
+<div align="center">
+  <figure>
+    <img src="preview/sample-slider.gif" width="500">
+    <figcaption>Adjust number of data points shown on the plot using a slider</figcaption>
+  </figure>
+</div>
+
+### Floor plan
+<div align="center">
+  <figure>
+    <img src="preview/floorplan-toggle.gif" width="500">
+    <figcaption>Filter what data is shown on the plot using the floor plan</figcaption>
+  </figure>
+
+  <figure>
+    <img src="preview/floorplan-color.gif" width="500">
+    <figcaption>The floor plan changes color depending on the average temperature of the data in the date time range</figcaption>
+  </figure>
 </div>
 
 
 ## 🛠️ Implementation ##
-This project was bootstrapped .
+This project was bootstrapped using Meteor and coded using TypeScript and React hooks.
 
-The bot works by extracting the edition and number of tries from the shared Wordle result and using that information to update the score average, number of games, and streak.
+The server firsts parses the dataset (`private/room-temperatures.csv`) and inserts them into a Meteor collection i.e., a MongoDB database.
 
-Hence, the data is prone to being corrupted by accidental or incorrect entries. However, I have aimed to minimize this by putting checks in place to ensure no update persists when the edition played has already been recorded or is older than the most recent recorded edition (unless enabled by user).
+On the client's end, the client requests data from the server-side according to the input date time range. From then on, the client manipulates the data further by downsampling the data as necessary and aggregating the data by room id for futher calculations.
 
-## 🧰 Dependencies ##
-The full list can be found in [requirements.txt](https://github.com/yauyenching/wordle-tele-bot/blob/main/requirements.txt).
+The client then presents the filtered data using a time series graph using [Plotly](https://plotly.com/javascript/react/)  and a floor plan. Both the time series and floor plan is interactive and users can adjust the input parameters (i.e., *date time range, sample granularity, visible rooms*) through these components.
+
+## 🧰 Libraries ##
+* [Material-UI](https://mui.com/)
+* [janjakubnanista/downsample](https://github.com/janjakubnanista/downsample)
 
 ## ⚙️ Building this Project ##
-To deploy this application locally, get your own Telegram bot token (from [@BotFather](https://t.me/BotFather), more on that [here](https://core.telegram.org/bots#6-botfather)) and create your own MongoDB database cluster. Clone this repository and navigate to its directory. Then, in an .env file in the root folder:
-```
-API_KEY = <bot token>
-MONGODB_CONNECTION = <mongodb connection string>
-```
-If you want access to the admin debug functions, add your telegram user id in the .env as `ADMIN_ID` as well (you can find out your user id from [@userinfobot](https://t.me/userinfobot)). If not, comment out the debug functions.
+If you are new to Meteor, install Meteor first by following this [quick start guide](https://guide.meteor.com/).
 
-Install [Python](https://www.python.org/) on your system if you have yet to do so.  Then, run `pip install -r requirements.txt` to install all dependencies.
+To deploy this application locally, first clone this repository and navigate to its directory. Then, in the terminal,
 
-Then, comment out code with `@server.route` decorators, and the `server.run()` function at the bottom of the code. Replace it with:
 ```
-bot.remove_webhook()
-bot.infinity_polling()
+meteor npm install
 ```
-You should then be able to run the script locally and communicate with your bot on Telegram without any issues.
+to install all dependencies. Then,
+```
+meteor run
+```
+to run a local development build. The app will take a few minutes to intialize the data. Then, in the terminal, you will see
+```
+...
+=> App running at: http://localhost:3000
+```
+Going to http://localhost:3000/ in your browser will then launch the app.
 
-## 📖 Documentation ##
-### 📂 File Structure
+## 📂 File Structure
 ```
-bot.py                          # bot commands handler logic
-classes/
-    WordleStats.py              # database and data update logic
-handlers/
-    global_db_handler.py        # wrapper for WordleStats class
-utils/
-    load_mongo_db.py            # function loading mongodb database
-    message_handler.py          # functions extracting information from message text
-    messages.py                 # functions showing help text
+private/        ## Mock raw CSV room temperature data
+server/         ## Server-side code for parsing and inserting the CSV data
+client/         ## Container for the UI code and CSS styling
+imports/
+  api/          ## Business logic for handling room temperature data
+  db/           ## Room temperature collection and custom types
+  ui/           ## Presentation logic and UI components
+  utils/        ## Convenience and auxiliary functions
 ```
-
-## 🤔 Future ##
-The following is a list of potential features to implement (as of v1.0):
-* [ ] Compose automatic weekly message to show leaderboard for that week
-* [ ] Add user function to remove user from leaderboard that has left the chat
 
 ## 📝 License ##
-This project is licensed under the GNU GPLv3 License - see the [LICENSE](https://github.com/yauyenching/wordle-tele-bot/blob/main/LICENSE) file for details.
-
-## 🙌🏻 Acknowledgements ##
-This was my first passion project that I started from scratch with little knowledge of the tech stack beyond Python. I would like to thank the world wide web, StackOverflow, and the following resources:
-
-* [Telegram Bot API docs](https://core.telegram.org/bots/api)
-* [pyTelegramBotAPI docs](https://pypi.org/project/pyTelegramBotAPI/)
-* [MongoDB Manual](https://www.mongodb.com/docs/manual/reference/)
-* ["Build your first Telegram bot using Python and Heroku", Mattia Righetti](https://mattrighetti.medium.com/build-your-first-telegram-bot-using-python-and-heroku-79d48950d4b0)
-* Thanks to my schoolmate's [breathing regulation bot](https://bboey.com/breathe-with-me.html) for inspiration!
+This project is licensed under the MIT License - see the [LICENSE](https://github.com/yauyenching/dorm-temp-dashboard/blob/main/LICENSE) file for details.

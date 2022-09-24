@@ -20,10 +20,12 @@ export default function FloorPlan(
 
       const roomStyle =
         visibleRooms[roomId] ? {
-          background: `rgba(${valueR}, 55, ${valueB}, ${opacity})`
+          background: `rgba(${valueR}, 55, ${valueB}, ${opacity})`,
+          transition: 'box-shadow 0.1s ease-out, background-color 0.3s ease-in-out'
         } : {
           background: 'hsla(0, 0%, 66%, 0.8)',
           color: '#e1e1e1',
+          transition: 'box-shadow 0.1s ease-out'
         }
 
       return (
