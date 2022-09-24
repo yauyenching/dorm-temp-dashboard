@@ -6,7 +6,7 @@
   <img src="https://img.shields.io/badge/Meteor-DE4D4D?style=for-the-badge&logo=Meteor&logoColor=white">
   <img src="https://img.shields.io/badge/License-MIT-informational?style=for-the-badge">
 </p>
-A full-stack web application with elements of Progressive Web Apps for a mock building smart temperature management system for a dormitory using TypeScript, React, Sass, and Meteor. This project as part of a final assignment for a UI development course.
+A full-stack web application with elements of Progressive Web Apps designed to be a mock building smart temperature management system for a dormitory. This project was coded using TypeScript, React, Sass, and Meteor as part of a final assignment for a UI development course.
 
 ## ✨ Preview ##
 <div align="center" style="display:block;">
