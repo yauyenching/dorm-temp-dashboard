@@ -26,8 +26,6 @@ export default function TimeSeries(
     }
   }, [sampleScale, roomTemps, visibleRooms])
 
-  // console.log(roomTemps);
-
   for (const roomId in roomTemps) {
     const roomData: RoomIdTempData[] = roomTemps[roomId];
 
@@ -44,23 +42,17 @@ export default function TimeSeries(
   }
 
   const layout = {
-    // width: 850,
-    // height: 500,
     title: 'Room Temperatures (°C)',
     colorway : ['#FE72A3', '#F89C74', '#F6CF71', '#87C55F', '#66C5CC', '#80A3EF', '#C984EB'],
-    // xaxis: { bounds: [VALID_START_DATE, VALID_END_DATE] },
     yaxis: {
       fixedrange: true,
-      // bounds: [7.5, 28.5]
     },
-    // showlegend: false,
     legend: {"orientation": "h"},
     font: {
       family: 'Barlow, sans-serif',
       size: 14
     },
     paper_bgcolor: 'rgba(0,0,0,0)',
-    // plot_bgcolor: 'rgba(0,0,0,0)'
     margin: {
       l: 25,
       r: 25,
@@ -83,7 +75,6 @@ export default function TimeSeries(
         config={{
           scrollZoom: true,
           modeBarButtonsToRemove: ['resetScale2d', 'autoScale2d']
-          // responsive: true
         }}
         useResizeHandler={true}
         style={{width: "100%", height: "100%"}}

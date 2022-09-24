@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Meteor } from 'meteor/meteor';
 import { useTracker } from 'meteor/react-meteor-data';
-import { RoomId, RoomIdTempData, RoomTemp, RoomTempCollection } from '../db/temps';
+import { RoomId, RoomIdTempData, RoomTemp } from '../db/temps';
 import { Dayjs } from 'dayjs';
 import { startParams, updatedParams } from '../utils/linkability';
 
@@ -26,17 +26,9 @@ export function RoomTempModel(
   const VALID_START_DATE = new Date("2013-10-02T05:00:00");
   const VALID_END_DATE = new Date("2013-12-03T15:30:00");
 
-  // const MIN_SAMPLE_SIZE = 0;
-  // const MAX_SAMPLE_SIZE = 12;
-
-  type AvgTempArr = [number, number, number, number, number, number];
-
   function segregateTempData(roomTemps: RoomTemp[]): SegregatedRoomTemps {
     return roomTemps.reduce((acc, roomTemp) => {
       const key = roomTemp.roomId;
-      // console.log(key);
-      // console.log(roomTemp[property]);
-      // acc[Number(key)] ??= [];
       acc[Number(key)].push({
         x: roomTemp.timestamp,
         y: roomTemp.temperature
@@ -59,26 +51,13 @@ export function RoomTempModel(
   const getRoomTemps = () => useTracker(() => {
     console.log("Fetching RoomTempCollection...");
     const handler: Meteor.SubscriptionHandle =
-      Meteor.subscribe('temps', [startDateTime, endDateTime]);
-    let roomTempsData: RoomTemp[] = RoomTempCollection.find({
-      timestamp: {
-        $gt: startDateTime,
-        $lt: endDateTime
-      }
-    }).fetch()
-    roomTempsData =
-      roomTempsData.sort((a, b) => b.timestamp.getTime() - a.timestamp.getTime())
-    const roomTempsSegregated = segregateTempData(roomTempsData)
-    return {
-      roomTempsSegregated,
-      isLoading: !handler.ready()
-    }
-  }, [startDateTime, endDateTime])
+      Meteor.subscribe('temps');
+    return !handler.ready()
+  }, [])
 
   // Functional state updates referenced from 
   // https://stackoverflow.com/questions/58193166/usestate-hook-setter-incorrectly-overwrites-state
   function handleChangeStartDateTime(input: Dayjs | string | number | null | undefined): void {
-    // console.log(typeof input);
     let inputStartDateTime: Date | null = null;
     if (typeof (input) === "string" || typeof input === "number") {
       inputStartDateTime = new Date(input)
@@ -97,7 +76,6 @@ export function RoomTempModel(
   }
 
   function handleChangeEndDateTime(input: Dayjs | string | number | null | undefined): void {
-    // console.log(typeof input);
     let inputEndStartTime: Date | null = null;
     if (typeof input === "string" || typeof input === "number") {
       inputEndStartTime = new Date(input)
@@ -134,5 +112,6 @@ export function RoomTempModel(
     sampleScale, handleChangeSampleSize,
     visibleRooms, handleToggleVisibleRooms,
     changedParams, getRoomTemps,
+    segregateTempData
   }
 }

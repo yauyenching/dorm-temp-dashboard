@@ -1,11 +1,12 @@
 import React, { useEffect, Suspense } from 'react';
-import { BrowserRouter, Routes, Route, useSearchParams, createSearchParams, useLocation, Link } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, useSearchParams, createSearchParams, useLocation } from 'react-router-dom';
 import TimeWindowPicker from './TimeWindowPicker';
 import { RoomTempModel, SegregatedRoomTemps } from '../api/RoomTempModel';
 import SampleSlider from './SampleSlider';
 import { startParams, loadParamsOnStartup, setAppParams } from '../utils/linkability';
-import { Grid, createTheme, ThemeProvider, CssBaseline, Typography } from '@mui/material';
+import { Grid, createTheme, ThemeProvider } from '@mui/material';
 import { GitHub, LinkedIn } from '@mui/icons-material';
+import { RoomTemp, RoomTempCollection } from '../db/temps';
 
 // import TimeSeries from './TimeSeries';
 // import FloorPlan from './FloorPlan';
@@ -22,7 +23,8 @@ function MainPage() {
     endDateTime, handleChangeEndDateTime,
     sampleScale, handleChangeSampleSize,
     visibleRooms, handleToggleVisibleRooms,
-    changedParams, getRoomTemps
+    changedParams, getRoomTemps,
+    segregateTempData
   } = RoomTempModel(loadParams);
 
   const linkabilityReference: Readonly<startParams> = {
@@ -54,8 +56,15 @@ function MainPage() {
     "6": []
   };
 
-  const { isLoading, roomTempsSegregated } = getRoomTemps();
+  const isLoading = getRoomTemps();
   if (!isLoading) {
+    let roomTempsData: RoomTemp[] = RoomTempCollection.find({
+      timestamp: {
+        $gt: startDateTime,
+        $lt: endDateTime
+      }
+    }).fetch();
+    const roomTempsSegregated = segregateTempData(roomTempsData);
     roomTemps = roomTempsSegregated;
   }
 

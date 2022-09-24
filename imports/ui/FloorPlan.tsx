@@ -7,7 +7,6 @@ export default function FloorPlan(
 ) {
   const roomIds: RoomId[] = [0, 1, 2, 3, 4, 5, 6];
   const roomAvgTemps: readonly number[] = calculateAverageTemps(roomTemps);
-  // console.log(roomAvgTemps);
 
   const rooms: JSX.Element[] =
     roomIds.map(roomId => {
@@ -48,7 +47,6 @@ export default function FloorPlan(
       <div className='closet decorative c1' />
       <div className='closet decorative c2' />
       <div className='decorative-room' />
-      {/* {roomIds.map(roomId => <div className={`standard room R${roomId}`} />)} */}
       {rooms}
     </div>
   );
