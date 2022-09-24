@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, Suspense } from 'react';
 import { BrowserRouter, Routes, Route, useSearchParams, createSearchParams, useLocation, Link } from 'react-router-dom';
 import TimeWindowPicker from './TimeWindowPicker';
 import { RoomTempModel, SegregatedRoomTemps } from '../api/RoomTempModel';
@@ -92,20 +92,24 @@ function MainPage() {
             />
           </Grid>
           <Grid item lg={8} md={7} xs={12}>
-            <TimeSeries
-              handleChangeStartDateTime={handleChangeStartDateTime}
-              handleChangeEndDateTime={handleChangeEndDateTime}
-              roomTemps={roomTemps}
-              sampleScale={sampleScale}
-              visibleRooms={visibleRooms}
-            />
+            <Suspense fallback={<div>Loading time series...</div>}>
+              <TimeSeries
+                handleChangeStartDateTime={handleChangeStartDateTime}
+                handleChangeEndDateTime={handleChangeEndDateTime}
+                roomTemps={roomTemps}
+                sampleScale={sampleScale}
+                visibleRooms={visibleRooms}
+              />
+            </Suspense>
           </Grid>
           <Grid item lg={4} md={5} xs={12}>
-            <FloorPlan
-              visibleRooms={visibleRooms}
-              handleToggleVisibleRooms={handleToggleVisibleRooms}
-              roomTemps={roomTemps}
-            />
+            <Suspense fallback={<div>Loading floor plan...</div>}>
+              <FloorPlan
+                visibleRooms={visibleRooms}
+                handleToggleVisibleRooms={handleToggleVisibleRooms}
+                roomTemps={roomTemps}
+              />
+            </Suspense>
           </Grid>
           <Grid item mt={4}>
             Made with 🧡 by Yau Yen Ching 
