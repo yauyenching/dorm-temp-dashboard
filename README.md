@@ -79,6 +79,7 @@ The client then presents the filtered data using a time series graph using [Plot
 ## 🧰 Libraries ##
 * [Material-UI](https://mui.com/)
 * [janjakubnanista/downsample](https://github.com/janjakubnanista/downsample)
+* [meteor-fast-render](https://github.com/Meteor-Community-Packages/meteor-fast-render)
 
 ## ⚙️ Building this Project ##
 If you are new to Meteor, install Meteor first by following this [quick start guide](https://guide.meteor.com/).
