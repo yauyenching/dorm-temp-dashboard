@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Meteor } from 'meteor/meteor';
 import { useTracker } from 'meteor/react-meteor-data';
-import { RoomId, RoomIdTempData, RoomTemp } from '../db/temps';
+import { RoomId, RoomIdTempData, RoomTemp, RoomTempCollection } from '../db/temps';
 import { Dayjs } from 'dayjs';
 import { startParams, updatedParams } from '../utils/linkability';
 

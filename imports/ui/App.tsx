@@ -8,8 +8,6 @@ import { Grid, createTheme, ThemeProvider } from '@mui/material';
 import { GitHub, LinkedIn } from '@mui/icons-material';
 import { RoomTemp, RoomTempCollection } from '../db/temps';
 
-// import TimeSeries from './TimeSeries';
-// import FloorPlan from './FloorPlan';
 const TimeSeries = React.lazy(() => import('./TimeSeries'));
 const FloorPlan = React.lazy(() => import('./FloorPlan'));
 
@@ -37,14 +35,10 @@ function MainPage() {
   const [dashboardParams, setDashboardParams] = useSearchParams(urlParams);
   const newAppParams = createSearchParams(dashboardParams);
 
-  // console.log(changedParams);
-
   useEffect(() => {
     setAppParams(linkabilityReference, newAppParams, changedParams);
     setDashboardParams(newAppParams);
   }, [changedParams])
-
-  // setChangedParams(updatedParams);
 
   let roomTemps: SegregatedRoomTemps = {
     "0": [],

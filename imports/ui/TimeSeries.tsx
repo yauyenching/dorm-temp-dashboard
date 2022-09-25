@@ -68,7 +68,7 @@ export default function TimeSeries(
         data={data}
         layout={layout}
         onRelayout={(eventData) => {
-          console.log('x start: ' + eventData['xaxis.range[0]'] + '\n' + 'x end: ' + eventData['xaxis.range[1]']);
+          // console.log('x start: ' + eventData['xaxis.range[0]'] + '\n' + 'x end: ' + eventData['xaxis.range[1]']);
           handleChangeStartDateTime(eventData['xaxis.range[0]']);
           handleChangeEndDateTime(eventData['xaxis.range[1]']);
         }}
