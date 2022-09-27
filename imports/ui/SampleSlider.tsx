@@ -1,5 +1,8 @@
 import React from 'react';
-import { Typography, Box, Slider, Stack } from '@mui/material';
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
+import Slider from '@mui/material/Slider';
+import Stack from '@mui/material/Stack';
 import { calculateSampleSize } from '../utils/sample'
 
 function valuetext(value: number) {

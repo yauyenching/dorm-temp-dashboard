@@ -9,6 +9,7 @@
     "@mui/icons-material": "^5.10.6",
     "@mui/material": "^5.10.5",
     "@mui/x-date-pickers": "^5.0.1",
+    "@types/material-ui": "^0.21.12",
     "@types/meteor": "^2.7.1",
     "dayjs": "^1.11.5",
     "downsample": "^1.4.0",

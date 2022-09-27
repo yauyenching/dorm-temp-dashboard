@@ -4,8 +4,10 @@ import TimeWindowPicker from './TimeWindowPicker';
 import RoomTempModel from '../api/RoomTempModel';
 import SampleSlider from './SampleSlider';
 import { startParams, loadParamsOnStartup, setAppParams } from '../utils/linkability';
-import { Grid, createTheme, ThemeProvider } from '@mui/material';
-import { GitHub, LinkedIn } from '@mui/icons-material';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+import Grid from '@mui/material/Grid';
+import GitHub from '@mui/icons-material/GitHub';
+import LinkedIn from '@mui/icons-material/LinkedIn';
 
 const TimeSeries = React.lazy(() => import('./TimeSeries'));
 const FloorPlan = React.lazy(() => import('./FloorPlan'));

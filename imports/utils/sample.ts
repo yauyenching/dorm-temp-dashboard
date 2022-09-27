@@ -1,4 +1,6 @@
-import { LTTB, DataPoint, Indexable } from 'downsample';
+import { DataPoint, Indexable } from 'downsample/index';
+import { LTTB } from 'downsample/methods/LTTB';
+
 import { RoomIdTempData } from '../db/temps'
 
 export function calculateSampleSize(sampleScale): number {
