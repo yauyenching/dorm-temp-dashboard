@@ -2,13 +2,27 @@ $base-floor-color: #efefef;
 $floor-plan-border: #5f5f5f;
 $base-room-color: $base-floor-color;
 $decorative-room-color: #979797;
-$scale: 0.8;
-$border-offset: -1.5px * $scale;
-$standard-room-width: 73px * $scale;
+// var(--scale): 0.5;
+$border-offset: calc(-1.5px * var(--scale));
+$standard-room-width: calc(73px * var(--scale));
 
 // To use as reference in FloorPlan
 $inactive-background: hsla(0, 0%, 66%, 0.8);
 $inactive-text-color: #e1e1e1;
+
+:root {  
+  --scale: 0.7; 
+  --room-font-size: 28px; 
+  --room-subtitle-size: 18px;
+}
+
+@media only screen and (min-width: 450px) {
+  :root {
+    --scale: 0.8;
+    --room-font-size: 32px; 
+    --room-subtitle-size: 18px;
+  }
+}
 
 .floor-plan {
   border: 2px solid $floor-plan-border;
@@ -25,8 +39,8 @@ $inactive-text-color: #e1e1e1;
 
 .base {
   background-color: $base-floor-color;
-  width: 430px * $scale;
-  height: 275px * $scale;
+  width: calc(430px * var(--scale));
+  height: calc(275px * var(--scale));
   margin-top: 30px;
 }
 
@@ -34,33 +48,33 @@ $inactive-text-color: #e1e1e1;
   position: absolute;
   border: inherit;
   left: $border-offset;
-  top: (130px * $scale) - 40px + $border-offset;
+  top: calc(130px * var(--scale) - 40px + #{$border-offset});
   box-sizing: border-box;
 }
 
 .column {
-  width: 21px * $scale;
-  height: 35px * $scale;
+  width: calc(21px * var(--scale));
+  height: calc(35px * var(--scale));
   background-color: #6d6d6d;
 }
 
 .closet {
-  width: 78.5px * $scale;
-  height: 35px * $scale;
+  width: calc(78.5px * var(--scale));
+  height: calc(35px * var(--scale));
   background-color: $decorative-room-color;
 }
 
 .c1 {
-  left: 18px * $scale;
+  left: calc(18px * var(--scale));
 }
 
 .c2 {
-  left: 95px * $scale;
+  left: calc(95px * var(--scale));
 }
 
 .decorative-room {
-  width: 190px * $scale;
-  height: (130px * $scale) - 40px + (35px * $scale) + ($border-offset * 2);
+  width: calc(190px * var(--scale));
+  height: calc(130px * var(--scale) - 40px + (35px * var(--scale)) + calc(#{$border-offset} * 2));
   position: absolute;
   background-color: $decorative-room-color;
   border: inherit;
@@ -75,7 +89,7 @@ $inactive-text-color: #e1e1e1;
   position: absolute;
   box-shadow: inherit;
   cursor: pointer;
-  font-size: 32px;
+  font-size: var(--room-font-size);
   text-align: center;
   user-select: none;
   &:hover {
@@ -84,22 +98,22 @@ $inactive-text-color: #e1e1e1;
 }
 
 .big {
-  width: 175px * $scale;
-  height: 130px * $scale;
+  width: calc(175px * var(--scale));
+  height: calc(130px * var(--scale));
   top: -40px;
   left: $border-offset;
-  padding: (30px * $scale) 0px 0px;
+  padding: calc(30px * var(--scale)) 0px 0px;
 }
 
 .standard {
   width: $standard-room-width;
-  height: 120px * $scale;
+  height: calc(120px * var(--scale));
   bottom: $border-offset;
-  padding: (25px * $scale) 0px 0px;
+  padding: calc(25px * var(--scale)) 0px 0px;
 }
 
 @function getRoomPosition($roomId) {
-  @return ($border-offset * $roomId) + ($standard-room-width * ($roomId - 1));
+  @return calc((#{$border-offset} * #{$roomId}) + #{$standard-room-width} * (#{$roomId} - 1));
 }
 
 .R1 {
@@ -123,9 +137,9 @@ $inactive-text-color: #e1e1e1;
 }
 
 .R6 {
-  left: getRoomPosition(6) - 0.5px;
+  left: calc(#{getRoomPosition(6)} - 0.5px);
 }
 
 .subtitle {
-  font-size: 18px;
+  font-size: var(--room-subtitle-size);
 }

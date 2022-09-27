@@ -1,12 +1,11 @@
 import React, { useEffect, Suspense } from 'react';
 import { BrowserRouter, Routes, Route, useSearchParams, createSearchParams, useLocation } from 'react-router-dom';
 import TimeWindowPicker from './TimeWindowPicker';
-import { RoomTempModel, SegregatedRoomTemps } from '../api/RoomTempModel';
+import RoomTempModel from '../api/RoomTempModel';
 import SampleSlider from './SampleSlider';
 import { startParams, loadParamsOnStartup, setAppParams } from '../utils/linkability';
 import { Grid, createTheme, ThemeProvider } from '@mui/material';
 import { GitHub, LinkedIn } from '@mui/icons-material';
-import { RoomTemp, RoomTempCollection } from '../db/temps';
 
 const TimeSeries = React.lazy(() => import('./TimeSeries'));
 const FloorPlan = React.lazy(() => import('./FloorPlan'));
@@ -21,8 +20,7 @@ function MainPage() {
     endDateTime, handleChangeEndDateTime,
     sampleScale, handleChangeSampleSize,
     visibleRooms, handleToggleVisibleRooms,
-    changedParams, getRoomTemps,
-    segregateTempData
+    changedParams, roomTemps
   } = RoomTempModel(loadParams);
 
   const linkabilityReference: Readonly<startParams> = {
@@ -39,28 +37,6 @@ function MainPage() {
     setAppParams(linkabilityReference, newAppParams, changedParams);
     setDashboardParams(newAppParams);
   }, [changedParams])
-
-  let roomTemps: SegregatedRoomTemps = {
-    "0": [],
-    "1": [],
-    "2": [],
-    "3": [],
-    "4": [],
-    "5": [],
-    "6": []
-  };
-
-  const isLoading = getRoomTemps();
-  if (!isLoading) {
-    let roomTempsData: RoomTemp[] = RoomTempCollection.find({
-      timestamp: {
-        $gt: startDateTime,
-        $lt: endDateTime
-      }
-    }).fetch();
-    const roomTempsSegregated = segregateTempData(roomTempsData);
-    roomTemps = roomTempsSegregated;
-  }
 
   const theme = createTheme({
     typography: {
@@ -97,6 +73,8 @@ function MainPage() {
           <Grid item lg={8} md={7} xs={12}>
             <Suspense fallback={<div>Loading time series...</div>}>
               <TimeSeries
+                startDateTime={startDateTime}
+                endDateTime={endDateTime}
                 handleChangeStartDateTime={handleChangeStartDateTime}
                 handleChangeEndDateTime={handleChangeEndDateTime}
                 roomTemps={roomTemps}

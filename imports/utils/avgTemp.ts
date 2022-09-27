@@ -1,4 +1,4 @@
-import { SegregatedRoomTemps } from "../api/RoomTempModel";
+import { SegregatedRoomTemps } from "../utils/segregate";
 
 export function calculateAverageTemps(
   segregatedRoomTemps: SegregatedRoomTemps

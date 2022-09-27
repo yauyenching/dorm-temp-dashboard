@@ -6,7 +6,8 @@ import { DataPoint } from 'downsample';
 import { useTracker } from 'meteor/react-meteor-data';
 
 export default function TimeSeries(
-  { handleChangeStartDateTime, handleChangeEndDateTime,
+  { startDateTime, endDateTime,
+    handleChangeStartDateTime, handleChangeEndDateTime,
     roomTemps, sampleScale, visibleRooms }
 ) {
   let data: any[] = [];
@@ -44,6 +45,10 @@ export default function TimeSeries(
   const layout = {
     title: 'Room Temperatures (°C)',
     colorway : ['#FE72A3', '#F89C74', '#F6CF71', '#87C55F', '#66C5CC', '#80A3EF', '#C984EB'],
+    xaxis: {
+      range: [startDateTime, endDateTime],
+      type: 'date'
+    },
     yaxis: {
       fixedrange: true,
     },

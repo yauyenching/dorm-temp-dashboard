@@ -12,8 +12,13 @@ function insertRoomTemp(data) {
 
 if(Meteor.isServer) {
   console.log("Publishing RoomTempCollection...");
-  Meteor.publish('temps', function() {
-    return RoomTempCollection.find()
+  Meteor.publish('temps', function(clientArgs) {
+    return RoomTempCollection.find({
+      timestamp: {
+        $gt: clientArgs[0],
+        $lt: clientArgs[1]
+      }
+    })
   })
 }
 

@@ -1,11 +1,23 @@
 @import "{}/imports/ui/FloorPlanStyle";
-@import url('https://fonts.googleapis.com/css2?family=Barlow:wght@400;500&display=swap');
 
 $lr-padding: 35px;
 $border-radius: 0px;
 
+/* Fonts */
+@font-face {
+  font-family: 'Barlow';
+  src: url("/fonts/Barlow/Barlow-Regular.ttf");
+}
+
+@font-face {
+  font-family: 'Barlow-Medium';
+  src: url("/fonts/Barlow/Barlow-Medium.ttf");
+}
+
+
 body {
   font-family: 'Barlow', sans-serif;
+  font-display: swap;
   background-color: #fff;
   color: #3D405B;
   margin: 0px;
@@ -17,6 +29,8 @@ h1 {
   text-underline-offset: 10px;
   color: #fff;
   text-align: center;
+  font-family: 'Barlow-Medium', sans-serif;
+  font-display: swap;
 }
 
 .container {

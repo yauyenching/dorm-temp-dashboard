@@ -1,13 +1,11 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Meteor } from 'meteor/meteor';
-import { useTracker } from 'meteor/react-meteor-data';
-import { RoomId, RoomIdTempData, RoomTemp, RoomTempCollection } from '../db/temps';
+import { RoomId, RoomTemp, RoomTempCollection } from '../db/temps';
 import { Dayjs } from 'dayjs';
 import { startParams, updatedParams } from '../utils/linkability';
+import { emptyRoomTemps, SegregatedRoomTemps, segregateTempData } from '../utils/segregate';
 
-export type SegregatedRoomTemps = Record<RoomId, RoomIdTempData[]>;
-
-export function RoomTempModel(
+export default function RoomTempModel(
   loadParams: Partial<startParams>
 ) {
   const [startDateTime, setStartDateTime] =
@@ -22,38 +20,29 @@ export function RoomTempModel(
     );
   const [changedParams, setChangedParams] =
     useState<updatedParams>({} as updatedParams);
+  const [ roomTemps, setRoomTemps ] =
+    useState<SegregatedRoomTemps>(emptyRoomTemps);
 
   const VALID_START_DATE = new Date("2013-10-02T05:00:00");
   const VALID_END_DATE = new Date("2013-12-03T15:30:00");
 
-  function segregateTempData(roomTemps: RoomTemp[]): SegregatedRoomTemps {
-    return roomTemps.reduce((acc, roomTemp) => {
-      const key = roomTemp.roomId;
-      acc[Number(key)].push({
-        x: roomTemp.timestamp,
-        y: roomTemp.temperature
-      });
-      return acc;
-    },
-      {
-        "0": [],
-        "1": [],
-        "2": [],
-        "3": [],
-        "4": [],
-        "5": [],
-        "6": []
-      });
-  }
-
   // referenced from https://anonyfox.com/spells/meteor-react-collection-hooks/
   // https://blog.meteor.com/introducing-usetracker-react-hooks-for-meteor-cb00c16d6222
-  const getRoomTemps = () => useTracker(() => {
+  useEffect(() => {
     console.log("Fetching RoomTempCollection...");
-    const handler: Meteor.SubscriptionHandle =
-      Meteor.subscribe('temps');
-    return !handler.ready()
-  }, [])
+    Meteor.subscribe('temps', [startDateTime, endDateTime], function() {
+      let roomTempsData: RoomTemp[] = RoomTempCollection.find({
+        timestamp: {
+          $gt: startDateTime,
+          $lt: endDateTime
+        }
+      }).fetch();
+      roomTempsData =
+        roomTempsData.sort((a, b) => b.timestamp.getTime() - a.timestamp.getTime())
+      const roomTempsSegregated = segregateTempData(roomTempsData);
+      setRoomTemps(roomTempsSegregated);
+    });
+  }, [startDateTime, endDateTime])
 
   // Functional state updates referenced from 
   // https://stackoverflow.com/questions/58193166/usestate-hook-setter-incorrectly-overwrites-state
@@ -111,7 +100,6 @@ export function RoomTempModel(
     endDateTime, handleChangeEndDateTime,
     sampleScale, handleChangeSampleSize,
     visibleRooms, handleToggleVisibleRooms,
-    changedParams, getRoomTemps,
-    segregateTempData
+    changedParams, roomTemps
   }
 }
