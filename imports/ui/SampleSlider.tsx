@@ -1,5 +1,5 @@
 import React from 'react';
-import { Grid, Typography, Input, Box, Slider, Stack } from '@mui/material';
+import { Typography, Box, Slider, Stack } from '@mui/material';
 import { calculateSampleSize } from '../utils/sample'
 
 function valuetext(value: number) {

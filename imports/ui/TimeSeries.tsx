@@ -1,9 +1,7 @@
 import React from 'react';
 import Plot from 'react-plotly.js';
-import { RoomIdTempData } from '../db/temps';
-import { downsample } from '../utils/sample';
-import { DataPoint } from 'downsample';
 import { useTracker } from 'meteor/react-meteor-data';
+import { downsample } from '../utils/sample';
 
 export default function TimeSeries(
   { startDateTime, endDateTime,
@@ -12,34 +10,39 @@ export default function TimeSeries(
 ) {
   let data: any[] = [];
 
-  const createGraphData = (roomData: RoomIdTempData[]) => useTracker(() => {
-    const roomTempData: number[] = [];
-    const roomTimeWindow: Date[] = [];
-    const downsampled = downsample(roomData, sampleScale)
-    for (let i = 0; i < downsampled.length; i++) {
-      const dataPoint: DataPoint = downsampled[i];
-      roomTimeWindow.push(dataPoint['x']);
-      roomTempData.push(dataPoint['y']);
-    }
-    return {
-      roomTimeWindow,
-      roomTempData
-    }
-  }, [sampleScale, roomTemps, visibleRooms])
+  function createGraphData(roomData) { 
+    return useTracker(async () => {
+      const roomTempData: number[] = [];
+      const roomTimeWindow: Date[] = [];
+      const downsampled = downsample(roomData, sampleScale)
+      for (let i = 0; i < downsampled.length; i++) {
+        const dataPoint = downsampled[i];
+        roomTimeWindow.push(dataPoint['x']);
+        roomTempData.push(dataPoint['y']);
+      }
+      return {
+        roomTimeWindow,
+        roomTempData
+      }
+    }, [sampleScale, roomTemps, visibleRooms])
+  }
 
   for (const roomId in roomTemps) {
-    const roomData: RoomIdTempData[] = roomTemps[roomId];
+    const roomData = roomTemps[roomId];
 
-    let { roomTimeWindow, roomTempData } = createGraphData(roomData);
+    // const { roomTimeWindow, roomTempData } = createGraphData(roomData);
+    createGraphData(roomData)
+      .then(({ roomTimeWindow, roomTempData }) => {
+        data.push({
+          x: roomTimeWindow,
+          y: roomTempData,
+          type: 'scatter',
+          mode: 'lines',
+          name: `Room ${roomId}`,
+          visible: visibleRooms[roomId] ? true : "legendonly"
+        })
+      })
 
-    data.push({
-      x: roomTimeWindow,
-      y: roomTempData,
-      type: 'scatter',
-      mode: 'lines',
-      name: `Room ${roomId}`,
-      visible: visibleRooms[roomId] ? true : "legendonly"
-    })
   }
 
   const layout = {
@@ -66,6 +69,8 @@ export default function TimeSeries(
       pad: 2
     }
   }
+
+  // const Plot = React.lazy(() => import('react-plotly.js'));
 
   return (
     <div className='time-series'>
