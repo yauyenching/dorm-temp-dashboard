@@ -6,7 +6,7 @@
   <img src="https://img.shields.io/badge/Meteor-DE4D4D?style=for-the-badge&logo=Meteor&logoColor=white">
   <img src="https://img.shields.io/badge/License-MIT-informational?style=for-the-badge">
 </p>
-A full-stack Progressive Web App (PWA) web application designed to be a mock building smart temperature management system for a dormitory. This project was coded using TypeScript, React, Sass, and Meteor as part of a final assignment for a UI development course.
+A full-stack Progressive Web App (PWA) web application designed to be a mock building smart temperature management system for a dormitory. This project was coded using TypeScript, React, Sass, and Meteor following a final project specification document for a UI development course.
 
 ## ✨ Preview ##
 <div align="center" style="display:block;">
@@ -15,7 +15,8 @@ A full-stack Progressive Web App (PWA) web application designed to be a mock bui
     <div><b>Explore and interact with time series data in a visually appealing format!</b></div>
   </figure>
 
-  <h3>🔗 Check out the live bot on telegram (<a href="https://t.me/WordleScoreboardBot">@WordleScoreboardBot</a>)!</h3>
+  <h3>🔗 Check out the live Heroku deployment demo <a href="https://dorm-temp-dashboard.herokuapp.com/">here</a>!</h3>
+  Warning: deployed app speeds were found to be slower than local server speeds.
 </div>
 
 ## ⭐ Features (with images) ##
