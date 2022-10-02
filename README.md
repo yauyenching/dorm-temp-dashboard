@@ -101,7 +101,7 @@ to run a local development build. The app will take a few minutes to intialize t
 ```
 Going to http://localhost:3000/ in your browser will then launch the app.
 
-## 📂 File Structure
+## 📂 File Structure ##
 ```
 private/        ## Mock raw CSV room temperature data
 server/         ## Server-side code for parsing and inserting the CSV data
@@ -115,3 +115,6 @@ imports/
 
 ## 📝 License ##
 This project is licensed under the MIT License - see the [LICENSE](https://github.com/yauyenching/dorm-temp-dashboard/blob/main/LICENSE) file for details.
+
+## 🙌🏻 Acknowledgements
+Thank you to the creator [Flat Icons](https://www.flaticon.com/authors/flat-icons) for temperature monitoring [icon](https://www.flaticon.com/free-icon/monitoring_4413491?term=temperature+monitoring&page=1&position=1&page=1&position=1&related_id=4413491&origin=style#) I used for the web app's favicon.
