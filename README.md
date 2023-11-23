@@ -15,8 +15,11 @@ A full-stack Progressive Web App (PWA) web application designed to be a mock bui
     <div><b>Explore and interact with time series data in a visually appealing format!</b></div>
   </figure>
 
-  <h3>🔗 Check out the live Heroku deployment demo <a href="https://dorm-temp-dashboard.herokuapp.com/">here</a>!</h3>
-  Warning: deployed app speeds were found to be slower than local server speeds.
+  <br>
+  <s>🔗 Check out the live Heroku deployment demo <a href="https://dorm-temp-dashboard.herokuapp.com/">here</a>!</s> (Made obsolete due to the deprecation of Heroku's free tier)
+  <h3>🔗 Check out the live deployment demo <a href="http://dorm-temp-dashboard.meteorapp.com/">here</a>!</h3></h3>
+  
+  Warning: deployed app speeds were found to be _much_ slower than local server speeds.
 </div>
 
 ## ⭐ Features (with images) ##
